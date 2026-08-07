@@ -1,0 +1,8 @@
+node_modules
+.next
+.env
+.env.local
+dist
+.DS_Store
+public/hero1.mp4
+public/hero2.mp4
