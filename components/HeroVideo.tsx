@@ -2,13 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const HERO1_URL =
+  "https://res.cloudinary.com/hsdynx3p/video/upload/v1786140927/hero1-compressed.mp4";
+const HERO2_URL =
+  "https://res.cloudinary.com/hsdynx3p/video/upload/v1786140926/hero2-compressed.mp4";
+
 export function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [src, setSrc] = useState("/hero1.mp4");
+  const [src, setSrc] = useState(HERO1_URL);
 
   useEffect(() => {
     function updateSrc() {
-      setSrc(window.innerWidth < 500 ? "/hero2.mp4" : "/hero1.mp4");
+      setSrc(window.innerWidth < 500 ? HERO2_URL : HERO1_URL);
     }
     updateSrc();
     window.addEventListener("resize", updateSrc);
