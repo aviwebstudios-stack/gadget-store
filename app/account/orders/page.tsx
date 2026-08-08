@@ -8,7 +8,10 @@ import { Footer } from "@/components/Footer";
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   pending: { label: "Awaiting Payment", color: "text-yellow-400" },
-  paid: { label: "Payment Confirmed — Processing", color: "text-green-400" },
+  paid: { label: "Payment Confirmed", color: "text-green-400" },
+  processing: { label: "Processing", color: "text-blue-400" },
+  shipped: { label: "Shipped", color: "text-purple-400" },
+  delivered: { label: "Delivered", color: "text-green-400" },
   failed: { label: "Payment Failed", color: "text-red-400" },
 };
 
