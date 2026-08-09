@@ -75,7 +75,7 @@ export function Footer() {
           <span>
             POWERED BY{" "}
             
-           <a href="https://wa.link/+2348059060395"
+           <a href="https://wa.me/+2348059060395"
               target="_blank"
               rel="noreferrer"
               className="font-semibold text-white/80 underline hover:text-white"
