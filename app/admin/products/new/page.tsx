@@ -10,7 +10,7 @@ export default function NewProductPage() {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState("0");
+  const [quantity, setQuantity] = useState("");
   const [isNewArrival, setIsNewArrival] = useState(false);
   const [isOnSale, setIsOnSale] = useState(false);
   const [file, setFile] = useState<File | null>(null);

@@ -11,7 +11,15 @@ export async function POST() {
   }
 
   let count = 0;
+  let catOrder = 0;
   for (const category of CATEGORIES) {
+    await prisma.category.upsert({
+      where: { name: category.name },
+      update: {},
+      create: { name: category.name, order: catOrder },
+    });
+    catOrder++;
+
     for (const p of category.products) {
       await prisma.product.upsert({
         where: { slug: p.id },
