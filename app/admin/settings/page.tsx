@@ -2,29 +2,80 @@
 
 import { useEffect, useState } from "react";
 
+type Step = 1 | 2 | 3 | 4;
+
 export default function AdminSettingsPage() {
-  const [botToken, setBotToken] = useState("");
+  const [step, setStep] = useState<Step>(1);
+  const [token, setToken] = useState("");
+  const [botUsername, setBotUsername] = useState("");
   const [chatId, setChatId] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "saving" | "saved">("loading");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [alreadyConnected, setAlreadyConnected] = useState(false);
 
   useEffect(() => {
     fetch("/api/admin/settings")
       .then((res) => res.json())
       .then((data) => {
-        setBotToken(data.telegramBotToken ?? "");
-        setChatId(data.telegramChatId ?? "");
-      })
-      .finally(() => setStatus("idle"));
+        if (data.telegramBotToken && data.telegramChatId) {
+          setAlreadyConnected(true);
+        }
+      });
   }, []);
 
-  async function handleSave() {
-    setStatus("saving");
+  async function handleVerifyToken() {
+    if (!token.trim()) {
+      setError("Paste the token first.");
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/telegram/get-bot-info", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: token.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setBotUsername(data.username);
+      setStep(3);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleCheckConnection() {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/telegram/get-chat-id", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: token.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setChatId(data.chatId);
+      setStep(4);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleFinish() {
+    setLoading(true);
     await fetch("/api/admin/settings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ telegramBotToken: botToken, telegramChatId: chatId }),
+      body: JSON.stringify({ telegramBotToken: token.trim(), telegramChatId: chatId }),
     });
-    setStatus("saved");
+    setLoading(false);
+    setAlreadyConnected(true);
   }
 
   return (
@@ -32,39 +83,123 @@ export default function AdminSettingsPage() {
       <h2 className="mb-6 text-lg font-semibold">Settings</h2>
 
       <div className="rounded-lg border border-white/10 p-5">
-        <h3 className="mb-2 text-sm font-semibold">Telegram Notifications</h3>
-        <p className="mb-4 text-xs leading-relaxed text-white/50">
-          Connect your own Telegram bot to receive newsletter signup alerts. In Telegram, message{" "}
-          <span className="text-white/80">@BotFather</span>, send <span className="text-white/80">/newbot</span>,
-          and follow the steps to get a bot token. Then message your new bot once, and visit{" "}
-          <span className="text-white/80">
-            https://api.telegram.org/bot&lt;YOUR_TOKEN&gt;/getUpdates
-          </span>{" "}
-          to find your chat ID.
+        <h3 className="mb-4 text-sm font-semibold">Telegram Notifications</h3>
+
+        {alreadyConnected && step === 1 && (
+          <div className="mb-4 rounded-md bg-green-500/10 px-4 py-3 text-sm text-green-400">
+            ✓ Telegram is connected. You'll receive newsletter signups here.
+          </div>
+        )}
+
+        <p className="mb-6 text-xs text-white/50">
+          {alreadyConnected ? "Want to reconnect a different bot?" : "Set up in 4 quick steps."}
         </p>
 
-        <div className="flex flex-col gap-3">
-          <input
-            value={botToken}
-            onChange={(e) => setBotToken(e.target.value)}
-            placeholder="Telegram Bot Token"
-            className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
-          />
-          <input
-            value={chatId}
-            onChange={(e) => setChatId(e.target.value)}
-            placeholder="Telegram Chat ID"
-            className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
-          />
+        <div className="mb-6 flex gap-2">
+          {[1, 2, 3, 4].map((n) => (
+            <div
+              key={n}
+              className={`h-1.5 flex-1 rounded-full ${step >= n ? "bg-white" : "bg-white/15"}`}
+            />
+          ))}
         </div>
 
-        <button
-          onClick={handleSave}
-          disabled={status === "saving"}
-          className="mt-4 rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
-        >
-          {status === "saving" ? "Saving..." : status === "saved" ? "Saved ✓" : "Save"}
-        </button>
+        {step === 1 && (
+          <div>
+            <p className="mb-4 text-sm text-white/80">
+              <strong>Step 1 of 4</strong> — Create your bot
+            </p>
+            <ol className="mb-5 list-decimal space-y-2 pl-5 text-sm text-white/70">
+              <li>Tap the button below — it opens Telegram</li>
+              <li>Tap <strong className="text-white">START</strong></li>
+              <li>Type <code className="rounded bg-white/10 px-1.5 py-0.5">/newbot</code> and send it</li>
+              <li>Follow the two questions it asks (a name, then a username)</li>
+              <li>It will send you a long code — that's your token. Copy it.</li>
+            </ol>
+            
+             <a href="https://t.me/botfather"
+              target="_blank"
+              rel="noreferrer"
+              className="block w-full rounded-full bg-white py-3 text-center text-sm font-semibold text-black hover:bg-white/85"
+            >
+              Open BotFather
+            </a>
+            <button
+              onClick={() => setStep(2)}
+              className="mt-3 w-full text-center text-xs text-white/50 hover:text-white"
+            >
+              I already have my token →
+            </button>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div>
+            <p className="mb-4 text-sm text-white/80">
+              <strong>Step 2 of 4</strong> — Paste your token
+            </p>
+            <input
+              value={token}
+              onChange={(e) => setToken(e.target.value)}
+              placeholder="Paste the code BotFather gave you"
+              className="w-full rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+            />
+            {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+            <button
+              onClick={handleVerifyToken}
+              disabled={loading}
+              className="mt-4 w-full rounded-full bg-white py-3 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
+            >
+              {loading ? "Checking..." : "Continue"}
+            </button>
+          </div>
+        )}
+
+        {step === 3 && (
+          <div>
+            <p className="mb-4 text-sm text-white/80">
+              <strong>Step 3 of 4</strong> — Say hi to your bot
+            </p>
+            <p className="mb-5 text-sm text-white/70">
+              Tap the button below, then send any message (like &ldquo;hi&rdquo;) to your bot.
+              This lets it know where to send you alerts.
+            </p>
+            
+             <a href={`https://t.me/${botUsername}`}
+              target="_blank"
+              rel="noreferrer"
+              className="block w-full rounded-full bg-white py-3 text-center text-sm font-semibold text-black hover:bg-white/85"
+            >
+              Open Your Bot
+            </a>
+            {error && <p className="mt-3 text-xs text-red-400">{error}</p>}
+            <button
+              onClick={handleCheckConnection}
+              disabled={loading}
+              className="mt-3 w-full rounded-full border border-white/25 py-3 text-sm font-semibold text-white hover:border-white disabled:opacity-60"
+            >
+              {loading ? "Checking..." : "I sent it — Check Connection"}
+            </button>
+          </div>
+        )}
+
+        {step === 4 && (
+          <div>
+            <p className="mb-4 text-sm text-white/80">
+              <strong>Step 4 of 4</strong> — All set
+            </p>
+            <div className="mb-5 rounded-md bg-green-500/10 px-4 py-3 text-sm text-green-400">
+              ✓ Your bot is connected and ready.
+            </div>
+            <button
+              onClick={handleFinish}
+              disabled={loading}
+              className="w-full rounded-full bg-white py-3 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
+            >
+              {loading ? "Saving..." : "Finish"}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
