@@ -1,10 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ShopNav } from "@/components/ShopNav";
 import { ProductCard } from "@/components/ProductCard";
-import { CATEGORIES, Product } from "@/lib/products";
 import { Footer } from "@/components/Footer";
+
+type Product = {
+  id: string;
+  slug: string;
+  name: string;
+  image: string;
+  priceMin: number;
+  priceMax: number;
+};
+type Category = { name: string; products: Product[] };
 
 function shuffle<T>(arr: T[]): T[] {
   const copy = [...arr];
@@ -15,21 +24,29 @@ function shuffle<T>(arr: T[]): T[] {
   return copy;
 }
 
-const TABS = ["All", ...CATEGORIES.map((c) => c.name)];
-const ALL_PRODUCTS_FLAT = CATEGORIES.flatMap((c) => c.products);
-
 export default function ShopPage() {
+  const [categories, setCategories] = useState<Category[]>([]);
   const [activeTab, setActiveTab] = useState("All");
   const [shuffledAll, setShuffledAll] = useState<Product[] | null>(null);
 
   useEffect(() => {
-    setShuffledAll(shuffle(ALL_PRODUCTS_FLAT));
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => setCategories(data.categories ?? []));
   }, []);
+
+  const allFlat = useMemo(() => categories.flatMap((c) => c.products), [categories]);
+
+  useEffect(() => {
+    if (allFlat.length > 0) setShuffledAll(shuffle(allFlat));
+  }, [allFlat]);
+
+  const tabs = ["All", ...categories.map((c) => c.name)];
 
   const displayedProducts: Product[] =
     activeTab === "All"
-      ? (shuffledAll ?? ALL_PRODUCTS_FLAT)
-      : (CATEGORIES.find((c) => c.name === activeTab)?.products ?? []);
+      ? shuffledAll ?? allFlat
+      : categories.find((c) => c.name === activeTab)?.products ?? [];
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -38,17 +55,22 @@ export default function ShopPage() {
 
         <div className="overflow-x-auto border-b border-white/10 bg-black [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="mx-auto flex max-w-7xl gap-6 px-6 py-3 sm:px-10">
-            {TABS.map((tab) => (
+            {tabs.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`shrink-0 whitespace-nowrap text-sm transition-colors ${
+                className={`group relative inline-block shrink-0 whitespace-nowrap py-1 text-sm transition-colors ${
                   activeTab === tab
-                    ? "font-semibold text-white underline underline-offset-4"
+                    ? "font-semibold text-white"
                     : "text-white/50 hover:text-white/80"
                 }`}
               >
                 {tab}
+                <span
+                  className={`absolute -bottom-0.5 left-0 h-[2px] bg-white transition-all duration-300 ease-out ${
+                    activeTab === tab ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
               </button>
             ))}
             <div className="w-6 shrink-0 sm:w-10" aria-hidden="true" />
