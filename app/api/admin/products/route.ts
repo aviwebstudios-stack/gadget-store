@@ -16,29 +16,47 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   if (!(await requireAdmin())) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
-  const body = await req.json();
-  const slug = body.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  try {
+    const body = await req.json();
+    const slug = body.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const price = Number(body.price);
 
-  const product = await prisma.product.create({
-    data: {
-      slug: `${slug}-${Date.now().toString(36)}`,
-      name: body.name,
-      image: body.image,
-      category: body.category,
-      priceMin: Number(body.priceMin),
-      priceMax: Number(body.priceMax),
-      inStock: body.inStock ?? true,
-    },
-  });
-  return NextResponse.json({ product });
+    const product = await prisma.product.create({
+      data: {
+        slug: `${slug}-${Date.now().toString(36)}`,
+        name: body.name,
+        image: body.image,
+        category: body.category,
+        priceMin: price,
+        priceMax: price,
+        description: body.description || null,
+        quantity: Number(body.quantity) || 0,
+        isNewArrival: Boolean(body.isNewArrival),
+        isOnSale: Boolean(body.isOnSale),
+        inStock: (Number(body.quantity) || 0) > 0,
+      },
+    });
+    return NextResponse.json({ product });
+  } catch (err) {
+    console.error("Create product error:", err);
+    return NextResponse.json({ error: "Could not create product" }, { status: 500 });
+  }
 }
 
 export async function PATCH(req: NextRequest) {
   if (!(await requireAdmin())) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
-  const { id, ...data } = await req.json();
-  if (data.priceMin !== undefined) data.priceMin = Number(data.priceMin);
-  if (data.priceMax !== undefined) data.priceMax = Number(data.priceMax);
+  const { id, price, ...rest } = await req.json();
+  const data: Record<string, unknown> = { ...rest };
+
+  if (price !== undefined) {
+    data.priceMin = Number(price);
+    data.priceMax = Number(price);
+  }
+  if (data.quantity !== undefined) {
+    data.quantity = Number(data.quantity);
+    data.inStock = data.quantity > 0;
+  }
 
   const product = await prisma.product.update({ where: { id }, data });
   return NextResponse.json({ product });
