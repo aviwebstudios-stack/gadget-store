@@ -2,8 +2,15 @@
 
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
-import { Product } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
+
+type Product = {
+  id: string;
+  slug: string;
+  name: string;
+  image: string;
+  priceMin: number;
+};
 
 function shuffle<T>(arr: T[]): T[] {
   const copy = [...arr];

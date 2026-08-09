@@ -1,10 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Product, formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/products";
+
+type Product = {
+  slug: string;
+  name: string;
+  image: string;
+  priceMin: number;
+};
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Link href={`/shop/${product.id}`} className="group block">
+    <Link href={`/shop/${product.slug}`} className="group block">
       <div className="aspect-square overflow-hidden rounded-lg bg-white/5">
         <Image
           src={product.image}

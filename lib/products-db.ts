@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 
 export type DbProduct = {
   id: string;
+  slug: string;
   name: string;
   image: string;
   priceMin: number;

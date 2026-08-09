@@ -1,26 +1,13 @@
+import { prisma } from "@/lib/prisma";
 import { ShopNav } from "@/components/ShopNav";
 import { ProductCard } from "@/components/ProductCard";
-import { CATEGORIES } from "@/lib/products";
 import { Footer } from "@/components/Footer";
 
-const NEW_ARRIVAL_IDS = [
-  "iphone-15-pro",
-  "macbook-air-m3",
-  "galaxy-s24-ultra",
-  "ps5-slim",
-  "sony-alpha-7-iv",
-  "apple-watch-series-9",
-  "airpods-pro-2",
-  "meta-quest-3",
-  "dji-osmo-pocket-3",
-  "rog-ally",
-];
-
-export default function NewArrivalsPage() {
-  const allProducts = CATEGORIES.flatMap((c) => c.products);
-  const newArrivals = NEW_ARRIVAL_IDS.map((id) => allProducts.find((p) => p.id === id)).filter(
-    (p): p is NonNullable<typeof p> => Boolean(p)
-  );
+export default async function NewArrivalsPage() {
+  const products = await prisma.product.findMany({
+    where: { isNewArrival: true },
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -30,11 +17,15 @@ export default function NewArrivalsPage() {
         <h1 className="mb-2 text-xl font-semibold sm:text-2xl">New Arrivals</h1>
         <p className="mb-8 text-sm text-white/60">The latest additions to the store.</p>
 
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-6 lg:grid-cols-5">
-          {newArrivals.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {products.length === 0 ? (
+          <p className="text-sm text-white/50">Nothing marked as new right now — check back soon.</p>
+        ) : (
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-6 lg:grid-cols-5">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
       </div>
 
       <Footer />
