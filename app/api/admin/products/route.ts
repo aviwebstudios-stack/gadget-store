@@ -54,8 +54,9 @@ export async function PATCH(req: NextRequest) {
     data.priceMax = Number(price);
   }
   if (data.quantity !== undefined) {
-    data.quantity = Number(data.quantity);
-    data.inStock = data.quantity > 0;
+    const quantityNum = Number(data.quantity);
+    data.quantity = quantityNum;
+    data.inStock = quantityNum > 0;
   }
 
   const product = await prisma.product.update({ where: { id }, data });
