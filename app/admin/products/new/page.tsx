@@ -1,21 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CATEGORIES } from "@/lib/products";
-
-const CATEGORY_NAMES = CATEGORIES.map((c) => c.name);
 
 export default function NewProductPage() {
   const router = useRouter();
+  const [categories, setCategories] = useState<string[]>([]);
   const [name, setName] = useState("");
-  const [category, setCategory] = useState(CATEGORY_NAMES[0]);
-  const [priceMin, setPriceMin] = useState("");
-  const [priceMax, setPriceMax] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState("0");
+  const [isNewArrival, setIsNewArrival] = useState(false);
+  const [isOnSale, setIsOnSale] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        const names = (data.categories ?? []).map((c: { name: string }) => c.name);
+        setCategories(names);
+        if (names.length > 0) setCategory(names[0]);
+      });
+  }, []);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
@@ -37,7 +48,7 @@ export default function NewProductPage() {
       const formData = new FormData();
       formData.append("file", file);
       const uploadRes = await fetch("/api/admin/upload", { method: "POST", body: formData });
-      const uploadData = await uploadRes.json();
+      const uploadData = await uploadRes.json().catch(() => ({}));
       if (!uploadRes.ok) throw new Error(uploadData.error ?? "Upload failed");
 
       const createRes = await fetch("/api/admin/products", {
@@ -46,12 +57,16 @@ export default function NewProductPage() {
         body: JSON.stringify({
           name,
           category,
-          priceMin,
-          priceMax,
+          price,
+          description,
+          quantity,
+          isNewArrival,
+          isOnSale,
           image: uploadData.url,
         }),
       });
-      if (!createRes.ok) throw new Error("Could not save product");
+      const createData = await createRes.json().catch(() => ({}));
+      if (!createRes.ok) throw new Error(createData.error ?? "Could not save product");
 
       router.push("/admin/products");
     } catch (err) {
@@ -81,12 +96,20 @@ export default function NewProductPage() {
           className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
         />
 
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={4}
+          placeholder="Description"
+          className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+        />
+
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           className="rounded-md border border-white/20 bg-black px-4 py-2.5 text-sm focus:border-white focus:outline-none"
         >
-          {CATEGORY_NAMES.map((c) => (
+          {categories.map((c) => (
             <option key={c} value={c}>{c}</option>
           ))}
         </select>
@@ -95,19 +118,30 @@ export default function NewProductPage() {
           <input
             required
             type="number"
-            value={priceMin}
-            onChange={(e) => setPriceMin(e.target.value)}
-            placeholder="Min price (₦)"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder="Price (₦)"
             className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
           />
           <input
             required
             type="number"
-            value={priceMax}
-            onChange={(e) => setPriceMax(e.target.value)}
-            placeholder="Max price (₦)"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            placeholder="Quantity in stock"
             className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
           />
+        </div>
+
+        <div className="flex gap-6">
+          <label className="flex items-center gap-2 text-sm text-white/80">
+            <input type="checkbox" checked={isNewArrival} onChange={(e) => setIsNewArrival(e.target.checked)} />
+            New Arrival
+          </label>
+          <label className="flex items-center gap-2 text-sm text-white/80">
+            <input type="checkbox" checked={isOnSale} onChange={(e) => setIsOnSale(e.target.checked)} />
+            On Sale
+          </label>
         </div>
 
         {error && <p className="text-xs text-red-400">{error}</p>}

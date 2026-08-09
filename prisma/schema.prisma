@@ -8,16 +8,26 @@ datasource db {
 }
 
 model Product {
-  id        String   @id @default(cuid())
-  slug      String   @unique
-  name      String
-  image     String
-  category  String
-  priceMin  Int
-  priceMax  Int
-  inStock   Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  image       String
+  category    String
+  priceMin    Int
+  priceMax    Int
+  description String?  @db.Text
+  quantity    Int      @default(0)
+  isNewArrival Boolean @default(false)
+  isOnSale    Boolean  @default(false)
+  inStock     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id    String @id @default(cuid())
+  name  String @unique
+  order Int    @default(0)
 }
 
 model SiteContent {
