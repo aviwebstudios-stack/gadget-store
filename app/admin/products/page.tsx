@@ -20,6 +20,7 @@ export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [importing, setImporting] = useState(false);
+  const [importMsg, setImportMsg] = useState<string | null>(null);
 
   function load() {
     setLoading(true);
@@ -35,7 +36,14 @@ export default function AdminProductsPage() {
 
   async function handleImport() {
     setImporting(true);
-    await fetch("/api/admin/seed-products", { method: "POST" });
+    setImportMsg(null);
+    try {
+      const res = await fetch("/api/admin/seed-products", { method: "POST" });
+      const data = await res.json();
+      setImportMsg(res.ok ? `Synced ${data.imported ?? 0} products & categories.` : (data.error ?? "Sync failed."));
+    } catch {
+      setImportMsg("Sync failed — could not reach server.");
+    }
     setImporting(false);
     load();
   }
@@ -63,7 +71,7 @@ export default function AdminProductsPage() {
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold">Products</h2>
         <div className="flex gap-2">
           <button
@@ -81,6 +89,8 @@ export default function AdminProductsPage() {
           </Link>
         </div>
       </div>
+
+      {importMsg && <p className="mb-4 text-xs text-white/60">{importMsg}</p>}
 
       <div className="flex flex-col gap-3">
         {products.map((p) => (
