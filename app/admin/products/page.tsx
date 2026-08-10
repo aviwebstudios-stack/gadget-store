@@ -66,15 +66,13 @@ export default function AdminProductsPage() {
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold">Products</h2>
         <div className="flex gap-2">
-          {products.length === 0 && (
-            <button
-              onClick={handleImport}
-              disabled={importing}
-              className="rounded-full border border-white/25 px-4 py-2 text-xs font-medium hover:border-white disabled:opacity-60"
-            >
-              {importing ? "Importing..." : "Import existing catalog"}
-            </button>
-          )}
+          <button
+            onClick={handleImport}
+            disabled={importing}
+            className="rounded-full border border-white/25 px-4 py-2 text-xs font-medium hover:border-white disabled:opacity-60"
+          >
+            {importing ? "Syncing..." : "Sync Categories"}
+          </button>
           <Link
             href="/admin/products/new"
             className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-black hover:bg-white/85"
