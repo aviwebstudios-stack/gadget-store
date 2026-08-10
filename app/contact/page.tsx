@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { ShopNav } from "@/components/ShopNav";
 import { Footer } from "@/components/Footer";
+import { ContactForm } from "@/components/ContactForm";
+
 
 const WHATSAPP_LINK = "https://wa.me/2347070531239";
 
@@ -66,31 +68,7 @@ export default function ContactPage() {
 
         <div className="mt-12">
           <h2 className="mb-4 text-sm font-semibold text-white/90">Send us a message</h2>
-          <form className="flex flex-col gap-4">
-            <input
-              required
-              placeholder="Your name"
-              className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
-            />
-            <input
-              required
-              type="email"
-              placeholder="Your email"
-              className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
-            />
-            <textarea
-              required
-              rows={5}
-              placeholder="How can we help?"
-              className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="w-full rounded-full bg-white py-3 text-sm font-semibold text-black hover:bg-white/85 sm:w-auto sm:px-8"
-            >
-              Send Message
-            </button>
-          </form>
+          <ContactForm />
         </div>
       </div>
 
