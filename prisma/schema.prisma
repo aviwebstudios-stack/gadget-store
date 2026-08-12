@@ -8,20 +8,21 @@ datasource db {
 }
 
 model Product {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  name        String
-  image       String
-  category    String
-  priceMin    Int
-  priceMax    Int
-  description String?  @db.Text
-  quantity    Int      @default(0)
-  isNewArrival Boolean @default(false)
-  isOnSale    Boolean  @default(false)
-  inStock     Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  image        String
+  images       String[] @default([])
+  category     String
+  priceMin     Int
+  priceMax     Int
+  description  String?  @db.Text
+  quantity     Int      @default(0)
+  isNewArrival Boolean  @default(false)
+  isOnSale     Boolean  @default(false)
+  inStock      Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Category {
@@ -48,13 +49,12 @@ model Order {
   address    String
   city       String
   state      String
-  status     String      @default("pending") // pending | paid | failed
+  status     String      @default("pending") // pending | paid | processing | shipped | delivered | failed
   total      Int
   items      OrderItem[]
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
-
 
 model OrderItem {
   id        String @id @default(cuid())
