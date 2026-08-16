@@ -25,6 +25,13 @@ model Product {
   updatedAt    DateTime @updatedAt
 }
 
+model Admin {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
 model Category {
   id    String @id @default(cuid())
   name  String @unique

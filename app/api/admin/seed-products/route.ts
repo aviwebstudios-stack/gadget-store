@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
+import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "@/lib/prisma";
 import { CATEGORIES } from "@/lib/products";
 
 export async function POST() {
-  const { sessionClaims } = auth();
-  const role = (sessionClaims?.metadata as { role?: string } | undefined)?.role;
-  if (role !== "admin") {
+  if (!(await requireAdmin())) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

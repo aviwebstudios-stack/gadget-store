@@ -1,12 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
+import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "@/lib/prisma";
-
-async function requireAdmin() {
-  const { sessionClaims } = auth();
-  const role = (sessionClaims?.metadata as { role?: string } | undefined)?.role;
-  return role === "admin";
-}
 
 export async function GET() {
   const products = await prisma.product.findMany({ orderBy: { createdAt: "desc" } });
@@ -20,20 +14,22 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const slug = body.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     const price = Number(body.price);
+    const quantity = Number(body.quantity) || 0;
 
     const product = await prisma.product.create({
       data: {
         slug: `${slug}-${Date.now().toString(36)}`,
         name: body.name,
         image: body.image,
+        images: Array.isArray(body.images) ? body.images : [],
         category: body.category,
         priceMin: price,
         priceMax: price,
         description: body.description || null,
-        quantity: Number(body.quantity) || 0,
+        quantity,
         isNewArrival: Boolean(body.isNewArrival),
         isOnSale: Boolean(body.isOnSale),
-        inStock: (Number(body.quantity) || 0) > 0,
+        inStock: quantity > 0,
       },
     });
     return NextResponse.json({ product });
@@ -54,9 +50,10 @@ export async function PATCH(req: NextRequest) {
     data.priceMax = Number(price);
   }
   if (data.quantity !== undefined) {
-    const quantityNum = Number(data.quantity);
-    data.quantity = quantityNum;
-    data.inStock = quantityNum > 0;
+    data.quantity = Number(data.quantity);
+  }
+  if (data.quantity === 0) {
+    data.inStock = false;
   }
 
   const product = await prisma.product.update({ where: { id }, data });
