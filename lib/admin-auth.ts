@@ -50,7 +50,7 @@ export async function verifyAdminToken(token: string | undefined): Promise<strin
     const valid = await crypto.subtle.verify(
       "HMAC",
       key,
-      fromBase64Url(sigB64),
+            fromBase64Url(sigB64) as BufferSource,
       encoder.encode(payloadB64)
     );
     if (!valid) return null;
