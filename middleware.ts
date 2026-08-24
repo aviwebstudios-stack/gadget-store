@@ -1,17 +1,23 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { verifyAdminToken } from "@/lib/admin-auth";
 
 const isProtectedRoute = createRouteMatcher(["/checkout(.*)", "/account(.*)", "/api/checkout(.*)"]);
 const isAdminRoute = createRouteMatcher(["/admin(.*)", "/api/admin(.*)"]);
-const isAdminLoginRoute = createRouteMatcher(["/admin/login"]);
+const isAdminPublicRoute = createRouteMatcher([
+  "/admin/login",
+  "/admin/setup",
+  "/api/admin/login",
+  "/api/admin/setup",
+]);
 
-export default clerkMiddleware((auth, req) => {
+export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) auth().protect();
 
-  if (isAdminRoute(req) && !isAdminLoginRoute(req)) {
-    const { userId, sessionClaims } = auth();
-    const role = (sessionClaims?.metadata as { role?: string } | undefined)?.role;
-    if (!userId || role !== "admin") {
+  if (isAdminRoute(req) && !isAdminPublicRoute(req)) {
+    const token = req.cookies.get("admin_session")?.value;
+    const adminId = await verifyAdminToken(token);
+    if (!adminId) {
       return NextResponse.redirect(new URL("/admin/login", req.url));
     }
   }
