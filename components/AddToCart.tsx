@@ -24,9 +24,13 @@ function shuffle<T>(arr: T[]): T[] {
 export function AddToCart({
   product,
   otherProducts,
+  maxQty,
+  outOfStock,
 }: {
   product: Product;
   otherProducts: Product[];
+  maxQty: number;
+  outOfStock: boolean;
 }) {
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
@@ -34,6 +38,7 @@ export function AddToCart({
   const [suggestions, setSuggestions] = useState<Product[]>([]);
 
   function handleAdd() {
+    if (outOfStock) return;
     addItem(
       { id: product.id, name: product.name, image: product.image, priceMin: product.priceMin },
       qty
@@ -45,32 +50,36 @@ export function AddToCart({
   return (
     <div>
       <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-white/70">Quantity</span>
-          <div className="flex items-center rounded-md border border-white/20">
-            <button
-              onClick={() => setQty((q) => Math.max(1, q - 1))}
-              className="px-3 py-1.5 text-white/80 hover:text-white"
-              aria-label="Decrease quantity"
-            >
-              −
-            </button>
-            <span className="w-8 text-center text-sm">{qty}</span>
-            <button
-              onClick={() => setQty((q) => q + 1)}
-              className="px-3 py-1.5 text-white/80 hover:text-white"
-              aria-label="Increase quantity"
-            >
-              +
-            </button>
+        {!outOfStock && (
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-white/70">Quantity</span>
+            <div className="flex items-center rounded-md border border-white/20">
+              <button
+                onClick={() => setQty((q) => Math.max(1, q - 1))}
+                className="px-3 py-1.5 text-white/80 hover:text-white"
+                aria-label="Decrease quantity"
+              >
+                −
+              </button>
+              <span className="w-8 text-center text-sm">{qty}</span>
+              <button
+                onClick={() => setQty((q) => Math.min(maxQty, q + 1))}
+                disabled={qty >= maxQty}
+                className="px-3 py-1.5 text-white/80 hover:text-white disabled:opacity-30"
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         <button
           onClick={handleAdd}
-          className="w-full rounded-full bg-white py-3 text-sm font-semibold text-black transition-colors hover:bg-white/85"
+          disabled={outOfStock}
+          className="w-full rounded-full bg-white py-3 text-sm font-semibold text-black transition-colors hover:bg-white/85 disabled:cursor-not-allowed disabled:bg-white/30 disabled:text-white/60"
         >
-          Add to Cart
+          {outOfStock ? "Out of Stock" : "Add to Cart"}
         </button>
 
         {added && <p className="text-sm text-green-400">✓ Added to cart</p>}

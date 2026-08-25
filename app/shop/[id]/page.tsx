@@ -16,7 +16,8 @@ export default async function ProductPage({ params }: { params: { id: string } }
     take: 20,
   });
 
-  const images = [product.image, product.image, product.image, product.image];
+  const images = [product.image, ...product.images];
+  const outOfStock = !product.inStock || product.quantity <= 0;
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -36,24 +37,22 @@ export default async function ProductPage({ params }: { params: { id: string } }
 
             <p className="mt-3 text-lg text-white/90">{formatNaira(product.priceMin)}</p>
 
-            {product.quantity > 0 ? (
-              product.quantity <= 3 ? (
-                <p className="mt-2 inline-block rounded-full bg-orange-500/15 px-3 py-1 text-xs text-orange-400">
-                  Only {product.quantity} left
-                </p>
-              ) : (
-                <p className="mt-2 inline-block rounded-full bg-green-500/15 px-3 py-1 text-xs text-green-400">
-                  In Stock
-                </p>
-              )
-            ) : (
+            {outOfStock ? (
               <p className="mt-2 inline-block rounded-full bg-red-500/15 px-3 py-1 text-xs text-red-400">
                 Out of Stock
+              </p>
+            ) : product.quantity <= 3 ? (
+              <p className="mt-2 inline-block rounded-full bg-orange-500/15 px-3 py-1 text-xs text-orange-400">
+                Only {product.quantity} left
+              </p>
+            ) : (
+              <p className="mt-2 inline-block rounded-full bg-green-500/15 px-3 py-1 text-xs text-green-400">
+                In Stock
               </p>
             )}
 
             <div className="mt-6">
-              <AddToCart product={product} otherProducts={otherProducts} />
+              <AddToCart product={product} otherProducts={otherProducts} maxQty={product.quantity} outOfStock={outOfStock} />
             </div>
 
             <div className="mt-10 border-t border-white/10 pt-6">

@@ -13,8 +13,12 @@ export default function NewProductPage() {
   const [quantity, setQuantity] = useState("");
   const [isNewArrival, setIsNewArrival] = useState(false);
   const [isOnSale, setIsOnSale] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [galleryPreviews, setGalleryPreviews] = useState<string[]>([]);
+
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,28 +32,49 @@ export default function NewProductPage() {
       });
   }, []);
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleCoverChange(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
     if (!f) return;
-    setFile(f);
-    setPreview(URL.createObjectURL(f));
+    setCoverFile(f);
+    setCoverPreview(URL.createObjectURL(f));
+  }
+
+  function handleGalleryChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    if (files.length === 0) return;
+    setGalleryFiles((prev) => [...prev, ...files]);
+    setGalleryPreviews((prev) => [...prev, ...files.map((f) => URL.createObjectURL(f))]);
+  }
+
+  function removeGalleryImage(index: number) {
+    setGalleryFiles((prev) => prev.filter((_, i) => i !== index));
+    setGalleryPreviews((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  async function uploadFile(file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error ?? "Upload failed");
+    return data.url;
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!file) {
-      setError("Please choose a product image.");
+    if (!coverFile) {
+      setError("Please choose a cover image.");
       return;
     }
     setSaving(true);
     setError(null);
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const uploadRes = await fetch("/api/admin/upload", { method: "POST", body: formData });
-      const uploadData = await uploadRes.json().catch(() => ({}));
-      if (!uploadRes.ok) throw new Error(uploadData.error ?? "Upload failed");
+      const coverUrl = await uploadFile(coverFile);
+      const galleryUrls: string[] = [];
+      for (const f of galleryFiles) {
+        galleryUrls.push(await uploadFile(f));
+      }
 
       const createRes = await fetch("/api/admin/products", {
         method: "POST",
@@ -62,7 +87,8 @@ export default function NewProductPage() {
           quantity,
           isNewArrival,
           isOnSale,
-          image: uploadData.url,
+          image: coverUrl,
+          images: galleryUrls,
         }),
       });
       const createData = await createRes.json().catch(() => ({}));
@@ -81,10 +107,31 @@ export default function NewProductPage() {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
-          <label className="mb-1 block text-xs text-white/60">Product image</label>
-          <input type="file" accept="image/*" onChange={handleFileChange} className="text-sm" />
-          {preview && (
-            <img src={preview} alt="Preview" className="mt-3 h-24 w-24 rounded-md object-cover" />
+          <label className="mb-1 block text-xs text-white/60">Cover image (main photo)</label>
+          <input type="file" accept="image/*" onChange={handleCoverChange} className="text-sm" />
+          {coverPreview && (
+            <img src={coverPreview} alt="Cover preview" className="mt-3 h-24 w-24 rounded-md object-cover" />
+          )}
+        </div>
+
+        <div>
+          <label className="mb-1 block text-xs text-white/60">Additional gallery photos (optional)</label>
+          <input type="file" accept="image/*" multiple onChange={handleGalleryChange} className="text-sm" />
+          {galleryPreviews.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {galleryPreviews.map((src, i) => (
+                <div key={i} className="relative h-16 w-16">
+                  <img src={src} alt={`Gallery ${i + 1}`} className="h-16 w-16 rounded-md object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => removeGalleryImage(i)}
+                    className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
