@@ -19,8 +19,6 @@ type Product = {
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [importing, setImporting] = useState(false);
-  const [importMsg, setImportMsg] = useState<string | null>(null);
 
   function load() {
     setLoading(true);
@@ -33,20 +31,6 @@ export default function AdminProductsPage() {
   useEffect(() => {
     load();
   }, []);
-
-  async function handleImport() {
-    setImporting(true);
-    setImportMsg(null);
-    try {
-      const res = await fetch("/api/admin/seed-products", { method: "POST" });
-      const data = await res.json();
-      setImportMsg(res.ok ? `Synced ${data.imported ?? 0} products & categories.` : (data.error ?? "Sync failed."));
-    } catch {
-      setImportMsg("Sync failed. Could not reach the server.");
-    }
-    setImporting(false);
-    load();
-  }
 
   async function toggleStock(id: string, inStock: boolean) {
     setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, inStock } : p)));
@@ -71,26 +55,15 @@ export default function AdminProductsPage() {
 
   return (
     <div>
-      <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold">Products</h2>
-        <div className="flex gap-2">
-          <button
-            onClick={handleImport}
-            disabled={importing}
-            className="rounded-full border border-fg/25 px-4 py-2 text-xs font-medium hover:border-fg disabled:opacity-60"
-          >
-            {importing ? "Syncing..." : "Sync Categories"}
-          </button>
-          <Link
-            href="/admin/products/new"
-            className="rounded-full bg-fg px-4 py-2 text-xs font-semibold text-page hover:bg-fg/85"
-          >
-            + Add Product
-          </Link>
-        </div>
+        <Link
+          href="/admin/products/new"
+          className="rounded-full bg-fg px-4 py-2 text-xs font-semibold text-page hover:bg-fg/85"
+        >
+          + Add Product
+        </Link>
       </div>
-
-      {importMsg && <p className="mb-4 text-xs text-fg-60">{importMsg}</p>}
 
       <div className="flex flex-col gap-3">
         {products.map((p) => (
