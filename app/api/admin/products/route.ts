@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
+  if (!(await requireAdmin())) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const products = await prisma.product.findMany({ orderBy: { createdAt: "desc" } });
   return NextResponse.json({ products });
 }
