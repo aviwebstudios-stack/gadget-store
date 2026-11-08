@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { StoreClaimsEditor } from "@/components/StoreClaimsEditor";
 
 type Step = 1 | 2 | 3 | 4;
 
@@ -81,6 +82,7 @@ export default function AdminSettingsPage() {
   return (
     <div>
       <h2 className="mb-6 text-lg font-semibold">Settings</h2>
+      <StoreClaimsEditor />
 
       <div className="rounded-lg border border-fg/10 p-5">
         <h3 className="mb-4 text-sm font-semibold">Telegram Notifications</h3>

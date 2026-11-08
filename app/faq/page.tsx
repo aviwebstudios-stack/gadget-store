@@ -3,21 +3,16 @@ import { pageMetadata } from "@/lib/seo";
 import { prisma } from "@/lib/prisma";
 import { ShopNav } from "@/components/ShopNav";
 import { Footer } from "@/components/Footer";
+import { getStoreClaims } from "@/lib/store-content-server";
+import { defaultFaqs, type FaqItem } from "@/lib/store-content";
 
-const DEFAULT_FAQS = [
-  { q: "How do I pay for my order?", a: "Payments go through Flutterwave. You can pay by card, bank transfer or another method Flutterwave supports. Pay on delivery is also available in select areas." },
-  { q: "Do you offer free shipping?", a: "Yes, all orders ship free nationwide." },
-  { q: "How do I track my order?", a: "After checkout, you'll receive a tracking ID. Use the Track Order page with your tracking ID and the email used at checkout, or view all your orders under your account." },
-  { q: "Are your products covered by warranty?", a: "Yes, every product comes with manufacturer warranty coverage." },
-  { q: "Do I need an account to shop?", a: "You can browse and add items to your cart without an account, but you'll need to sign in to complete checkout so we can keep your order history accessible to you." },
-  { q: "How can I contact support?", a: "Visit the Contact page for our phone number, address, and a message form." },
-];
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = pageMetadata("FAQ", "Answers about paying, shipping, warranty, accounts and tracking orders at Delux Tech Gadget.");
 
 export default async function FaqPage() {
   const record = await prisma.siteContent.findUnique({ where: { key: "faq_items" } });
-  let faqs = DEFAULT_FAQS;
+  let faqs: FaqItem[] = defaultFaqs(await getStoreClaims());
   if (record?.value) {
     try {
       const parsed = JSON.parse(record.value);

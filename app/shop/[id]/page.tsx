@@ -8,6 +8,10 @@ import { AddToCart } from "@/components/AddToCart";
 import { BackButton } from "@/components/BackButton";
 import { Footer } from "@/components/Footer";
 import { pageMetadata } from "@/lib/seo";
+import { getStoreClaims } from "@/lib/store-content-server";
+import { activeClaims } from "@/lib/store-content";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const product = await prisma.product.findUnique({ where: { slug: params.id } });
@@ -29,6 +33,8 @@ export default async function ProductPage({ params }: { params: { id: string } }
 
   const images = [product.image, ...product.images];
   const outOfStock = !product.inStock || product.quantity <= 0;
+  const description = product.description?.trim() ?? "";
+  const claims = activeClaims(await getStoreClaims());
 
   return (
     <main className="min-h-screen bg-page text-fg">
@@ -66,18 +72,23 @@ export default async function ProductPage({ params }: { params: { id: string } }
               <AddToCart product={product} otherProducts={otherProducts} maxQty={product.quantity} outOfStock={outOfStock} />
             </div>
 
-            <div className="mt-10 border-t border-fg/10 pt-6">
-              <h2 className="mb-2 text-sm font-semibold text-fg-90">Description</h2>
-              <p className="text-sm leading-relaxed text-fg-60">
-                {product.description || `Genuine ${product.name}. Brand new and factory sealed, backed by manufacturer warranty. Fast, tracked shipping on every order.`}
-              </p>
-            </div>
-
-            <ul className="mt-6 flex list-disc flex-col gap-2 pl-5 text-sm text-fg-60">
-              <li>Free shipping on all orders</li>
-              <li>Manufacturer warranty included</li>
-              <li>Pay on delivery available in select areas</li>
-            </ul>
+            {(description || claims.length > 0) && (
+              <div className="mt-10 border-t border-fg/10 pt-6">
+                {description && (
+                  <>
+                    <h2 className="mb-2 text-sm font-semibold text-fg-90">Description</h2>
+                    <p className="whitespace-pre-line text-sm leading-relaxed text-fg-60">{description}</p>
+                  </>
+                )}
+                {claims.length > 0 && (
+                  <ul className={`${description ? "mt-6" : ""} flex list-disc flex-col gap-2 pl-5 text-sm text-fg-60`}>
+                    {claims.map((claim) => (
+                      <li key={claim}>{claim}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

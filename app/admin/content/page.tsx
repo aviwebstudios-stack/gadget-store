@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { DEFAULT_CONTACT, defaultFaqs, parseClaims, parseContact, type ContactInfo, type FaqItem } from "@/lib/store-content";
 
 const TEXT_PAGES = [
   { key: "terms", label: "Terms & Conditions" },
@@ -8,16 +9,6 @@ const TEXT_PAGES = [
 ];
 
 type Category = { id: string; name: string };
-type FaqItem = { q: string; a: string };
-
-const DEFAULT_FAQS: FaqItem[] = [
-  { q: "How do I pay for my order?", a: "Payments go through Flutterwave. You can pay by card, bank transfer or another method Flutterwave supports. Pay on delivery is also available in select areas." },
-  { q: "Do you offer free shipping?", a: "Yes, all orders ship free nationwide." },
-  { q: "How do I track my order?", a: "After checkout, you'll receive a tracking ID. Use the Track Order page with your tracking ID and the email used at checkout, or view all your orders under your account." },
-  { q: "Are your products covered by warranty?", a: "Yes, every product comes with manufacturer warranty coverage." },
-  { q: "Do I need an account to shop?", a: "You can browse and add items to your cart without an account, but you'll need to sign in to complete checkout so we can keep your order history accessible to you." },
-  { q: "How can I contact support?", a: "Visit the Contact page for our phone number, address, and a message form." },
-];
 
 export default function AdminContentPage() {
   const [section, setSection] = useState<"terms" | "privacy" | "categories" | "contact" | "faq">("terms");
@@ -28,7 +19,7 @@ export default function AdminContentPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [newCategoryName, setNewCategoryName] = useState("");
 
-  const [contact, setContact] = useState({ motto: "", address: "", phone: "", whatsapp: "" });
+  const [contact, setContact] = useState<ContactInfo>(DEFAULT_CONTACT);
   const [contactStatus, setContactStatus] = useState<"idle" | "saving" | "saved">("idle");
 
   const [faqItems, setFaqItems] = useState<FaqItem[]>([]);
@@ -44,25 +35,21 @@ export default function AdminContentPage() {
     if (section === "contact") {
       fetch("/api/content?key=contact")
         .then((res) => res.json())
-        .then((data) => {
-          try {
-            setContact(JSON.parse(data.value));
-          } catch {
-            setContact({ motto: "", address: "", phone: "", whatsapp: "" });
-          }
-        });
+        .then((data) => setContact(parseContact(data.value)));
     }
     if (section === "faq") {
-      fetch("/api/content?key=faq_items")
-        .then((res) => res.json())
-        .then((data) => {
-          try {
-            const parsed = JSON.parse(data.value);
-            setFaqItems(Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_FAQS);
-          } catch {
-            setFaqItems(DEFAULT_FAQS);
-          }
-        });
+      Promise.all([
+        fetch("/api/content?key=faq_items").then((res) => res.json()),
+        fetch("/api/content?key=store_claims").then((res) => res.json()),
+      ]).then(([faq, claims]) => {
+        const defaults = defaultFaqs(parseClaims(claims.value));
+        try {
+          const parsed = JSON.parse(faq.value);
+          setFaqItems(Array.isArray(parsed) && parsed.length > 0 ? parsed : defaults);
+        } catch {
+          setFaqItems(defaults);
+        }
+      });
     }
   }, [section]);
 
@@ -247,6 +234,16 @@ export default function AdminContentPage() {
             placeholder="WhatsApp number (e.g. 2347070531239)"
             className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm focus:border-fg focus:outline-none"
           />
+          <input
+            type="email"
+            value={contact.email}
+            onChange={(e) => setContact({ ...contact, email: e.target.value })}
+            placeholder="Email address (optional)"
+            className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-fg-50 focus:border-fg focus:outline-none"
+          />
+          <p className="text-xs text-fg-50">
+            These show on the Contact page. An empty field uses the original value, except email, which is hidden when empty.
+          </p>
           <button
             onClick={saveContact}
             disabled={contactStatus === "saving"}
