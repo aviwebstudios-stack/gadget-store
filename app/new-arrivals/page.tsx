@@ -5,6 +5,8 @@ import { ShopNav } from "@/components/ShopNav";
 import { ProductCard } from "@/components/ProductCard";
 import { Footer } from "@/components/Footer";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = pageMetadata("New arrivals", "Phones, laptops, cameras and other gadgets most recently added to Delux Tech Gadget.");
 
 export default async function NewArrivalsPage() {
