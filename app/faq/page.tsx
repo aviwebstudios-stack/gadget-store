@@ -5,7 +5,7 @@ import { ShopNav } from "@/components/ShopNav";
 import { Footer } from "@/components/Footer";
 
 const DEFAULT_FAQS = [
-  { q: "How do I pay for my order?", a: "Payments are processed securely through Flutterwave — you can pay by card, bank transfer, or other supported methods. Pay on delivery is also available in select areas." },
+  { q: "How do I pay for my order?", a: "Payments go through Flutterwave. You can pay by card, bank transfer or another method Flutterwave supports. Pay on delivery is also available in select areas." },
   { q: "Do you offer free shipping?", a: "Yes, all orders ship free nationwide." },
   { q: "How do I track my order?", a: "After checkout, you'll receive a tracking ID. Use the Track Order page with your tracking ID and the email used at checkout, or view all your orders under your account." },
   { q: "Are your products covered by warranty?", a: "Yes, every product comes with manufacturer warranty coverage." },

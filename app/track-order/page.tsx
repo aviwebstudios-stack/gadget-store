@@ -91,7 +91,7 @@ const [email, setEmail] = useState(params.get("email") ?? "");
             disabled={loading}
             className="shrink-0 rounded-md bg-fg px-6 py-2.5 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
           >
-            {loading ? "Searching..." : "Track"}
+            {loading ? "Searching..." : "Track order"}
           </button>
         </form>
 

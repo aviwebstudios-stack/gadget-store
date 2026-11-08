@@ -49,16 +49,16 @@ export default async function ProductPage({ params }: { params: { id: string } }
             <p className="mt-3 text-lg text-fg-90">{formatNaira(product.priceMin)}</p>
 
             {outOfStock ? (
-              <p className="mt-2 inline-block rounded-full bg-danger/15 px-3 py-1 text-xs text-danger">
-                Out of Stock
+              <p className="mt-2 text-sm text-danger">
+                Out of stock
               </p>
             ) : product.quantity <= 3 ? (
-              <p className="mt-2 inline-block rounded-full bg-warning/15 px-3 py-1 text-xs text-warning">
+              <p className="mt-2 text-sm text-warning">
                 Only {product.quantity} left
               </p>
             ) : (
-              <p className="mt-2 inline-block rounded-full bg-success/15 px-3 py-1 text-xs text-success">
-                In Stock
+              <p className="mt-2 text-sm text-success">
+                In stock
               </p>
             )}
 
@@ -73,11 +73,11 @@ export default async function ProductPage({ params }: { params: { id: string } }
               </p>
             </div>
 
-            <div className="mt-6 flex flex-col gap-2 text-sm text-fg-60">
-              <p>✓ Free shipping on all orders</p>
-              <p>✓ Manufacturer warranty included</p>
-              <p>✓ Pay on delivery available in select areas</p>
-            </div>
+            <ul className="mt-6 flex list-disc flex-col gap-2 pl-5 text-sm text-fg-60">
+              <li>Free shipping on all orders</li>
+              <li>Manufacturer warranty included</li>
+              <li>Pay on delivery available in select areas</li>
+            </ul>
           </div>
         </div>
       </div>

@@ -41,7 +41,7 @@ export default async function OrdersPage() {
           <div className="rounded-lg border border-dashed border-fg/15 p-10 text-center">
             <p className="text-sm text-fg-50">You haven&apos;t placed any orders yet.</p>
             <Link href="/shop" className="mt-4 inline-block text-sm text-fg underline">
-              Start shopping
+              Go to the shop
             </Link>
           </div>
         ) : (
@@ -74,7 +74,7 @@ export default async function OrdersPage() {
                     href={`/track-order?id=${order.trackingId}&email=${encodeURIComponent(order.email)}`}
                     className="shrink-0 rounded-full border border-fg/25 px-4 py-1.5 text-xs font-medium text-fg hover:border-fg"
                   >
-                    Track
+                    Track order
                   </Link>
                 </div>
               </div>

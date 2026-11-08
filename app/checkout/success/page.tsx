@@ -66,7 +66,7 @@ export default function CheckoutSuccessPage() {
             <p className="mb-3 text-4xl">✕</p>
             <h1 className="text-xl font-semibold">Payment not confirmed</h1>
             <p className="mt-2 text-sm text-fg-60">
-              Something went wrong verifying your payment. If you were charged, contact support.
+              We could not confirm your payment. If money left your account, contact us and we will check it.
             </p>
           </>
         )}
@@ -77,11 +77,11 @@ export default function CheckoutSuccessPage() {
               href={`/track-order?id=${trackingId}`}
               className="rounded-full border border-fg/30 px-6 py-2.5 text-sm font-semibold text-fg hover:border-fg"
             >
-              Track Order
+              Track this order
             </Link>
           )}
           <Link href="/shop" className="rounded-full bg-fg px-6 py-2.5 text-sm font-semibold text-page hover:bg-fg/85">
-            Continue Shopping
+            Back to the shop
           </Link>
         </div>
       </div>

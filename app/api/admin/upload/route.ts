@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error("Upload error:", err);
     return NextResponse.json(
-      { error: "Upload failed — check that Vercel Blob storage is connected to this project." },
+      { error: "Upload failed. Check that Vercel Blob storage is connected to this project." },
       { status: 500 }
     );
   }

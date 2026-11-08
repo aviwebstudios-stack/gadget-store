@@ -17,7 +17,7 @@ export default function LandingPage() {
         </div>
 
         <div className="pointer-events-none relative z-10 flex h-full flex-col items-center justify-center gap-8 px-6">
-          <Image src="/logo.png" alt="Logo" width={220} height={80} priority className="h-auto w-[180px] sm:w-[220px]" />
+          <Image src="/logo.png" alt="Delux Tech Gadget" width={220} height={80} priority className="h-auto w-[180px] sm:w-[220px]" />
           <NavLinks />
         </div>
 

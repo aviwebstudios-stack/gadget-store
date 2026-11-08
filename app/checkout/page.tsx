@@ -129,7 +129,7 @@ export default function CheckoutPage() {
               disabled={loading}
               className="mt-4 w-full rounded-full bg-fg py-3 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
             >
-              {loading ? "Redirecting to payment..." : `Place Order — ${formatNaira(total)}`}
+              {loading ? "Redirecting to payment..." : `Pay ${formatNaira(total)}`}
             </button>
           </form>
 

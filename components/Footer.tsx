@@ -63,7 +63,7 @@ export function Footer() {
         <div className="mt-10 sm:mt-14">
           <Image
             src="/logo.png"
-            alt="Logo"
+            alt="Delux Tech Gadget"
             width={280}
             height={100}
             className="logo-adapt h-auto w-[160px] sm:w-[220px]"
@@ -71,7 +71,7 @@ export function Footer() {
         </div>
 
         <div className="mt-4 flex flex-row items-center justify-between gap-3 text-[10px] text-fg-50 sm:mt-6 sm:text-xs">
-          <span>© {new Date().getFullYear()} All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Delux Tech Gadget. All rights reserved.</span>
           <span>
             POWERED BY{" "}
             

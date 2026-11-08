@@ -42,7 +42,7 @@ export default function AdminProductsPage() {
       const data = await res.json();
       setImportMsg(res.ok ? `Synced ${data.imported ?? 0} products & categories.` : (data.error ?? "Sync failed."));
     } catch {
-      setImportMsg("Sync failed — could not reach server.");
+      setImportMsg("Sync failed. Could not reach the server.");
     }
     setImporting(false);
     load();

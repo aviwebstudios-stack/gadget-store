@@ -87,7 +87,7 @@ export function CartDrawer() {
               onClick={closeCart}
               className="block w-full rounded-full bg-fg py-3 text-center text-sm font-semibold text-page hover:bg-fg/85"
             >
-              Checkout
+              Go to checkout
             </Link>
           </div>
         )}

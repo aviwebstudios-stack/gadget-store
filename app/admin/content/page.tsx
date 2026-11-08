@@ -11,7 +11,7 @@ type Category = { id: string; name: string };
 type FaqItem = { q: string; a: string };
 
 const DEFAULT_FAQS: FaqItem[] = [
-  { q: "How do I pay for my order?", a: "Payments are processed securely through Flutterwave — you can pay by card, bank transfer, or other supported methods. Pay on delivery is also available in select areas." },
+  { q: "How do I pay for my order?", a: "Payments go through Flutterwave. You can pay by card, bank transfer or another method Flutterwave supports. Pay on delivery is also available in select areas." },
   { q: "Do you offer free shipping?", a: "Yes, all orders ship free nationwide." },
   { q: "How do I track my order?", a: "After checkout, you'll receive a tracking ID. Use the Track Order page with your tracking ID and the email used at checkout, or view all your orders under your account." },
   { q: "Are your products covered by warranty?", a: "Yes, every product comes with manufacturer warranty coverage." },
@@ -186,7 +186,7 @@ export default function AdminContentPage() {
             disabled={textStatus === "saving"}
             className="mt-4 rounded-full bg-fg px-6 py-2.5 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
           >
-            {textStatus === "saving" ? "Saving..." : textStatus === "saved" ? "Saved ✓" : "Save"}
+            {textStatus === "saving" ? "Saving..." : textStatus === "saved" ? "Saved" : "Save page"}
           </button>
         </>
       )}
@@ -201,7 +201,7 @@ export default function AdminContentPage() {
               className="flex-1 rounded-md border border-fg/20 bg-transparent px-4 py-2 text-sm focus:border-fg focus:outline-none"
             />
             <button onClick={addCategory} className="rounded-md bg-fg px-4 py-2 text-sm font-semibold text-page">
-              Add
+              Add category
             </button>
           </div>
           <div className="flex flex-col gap-2">
@@ -252,7 +252,7 @@ export default function AdminContentPage() {
             disabled={contactStatus === "saving"}
             className="mt-2 rounded-full bg-fg px-6 py-2.5 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
           >
-            {contactStatus === "saving" ? "Saving..." : contactStatus === "saved" ? "Saved ✓" : "Save"}
+            {contactStatus === "saving" ? "Saving..." : contactStatus === "saved" ? "Saved" : "Save contact details"}
           </button>
         </div>
       )}
@@ -303,7 +303,7 @@ export default function AdminContentPage() {
             disabled={faqStatus === "saving"}
             className="mt-4 block rounded-full bg-fg px-6 py-2.5 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
           >
-            {faqStatus === "saving" ? "Saving..." : faqStatus === "saved" ? "Saved ✓" : "Save"}
+            {faqStatus === "saving" ? "Saving..." : faqStatus === "saved" ? "Saved" : "Save FAQ"}
           </button>
         </div>
       )}

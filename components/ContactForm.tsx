@@ -30,7 +30,7 @@ export function ContactForm() {
   if (status === "sent") {
     return (
       <p className="rounded-md bg-success/10 px-4 py-3 text-sm text-success">
-        ✓ Message sent — we'll get back to you soon.
+        Message sent. We will reply to the email you gave us.
       </p>
     );
   }

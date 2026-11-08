@@ -70,7 +70,7 @@ export function ShopNav() {
         </nav>
 
         <Link href="/" className="absolute left-1/2 -translate-x-1/2">
-          <Image src="/logo.png" alt="Logo" width={140} height={50} className="logo-adapt h-auto w-[90px] nav:w-[110px]" />
+          <Image src="/logo.png" alt="Delux Tech Gadget" width={140} height={50} className="logo-adapt h-auto w-[90px] nav:w-[110px]" />
         </Link>
 
         <div className="flex items-center gap-4 nav:gap-5">

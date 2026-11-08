@@ -79,10 +79,10 @@ export function AddToCart({
           disabled={outOfStock}
           className="w-full rounded-full bg-fg py-3 text-sm font-semibold text-page transition-colors hover:bg-fg/85 disabled:cursor-not-allowed disabled:bg-fg/30 disabled:text-fg-60"
         >
-          {outOfStock ? "Out of Stock" : "Add to Cart"}
+          {outOfStock ? "Out of stock" : "Add to cart"}
         </button>
 
-        {added && <p className="text-sm text-success">✓ Added to cart</p>}
+        {added && <p className="text-sm text-success">Added to cart.</p>}
       </div>
 
       {added && suggestions.length > 0 && (

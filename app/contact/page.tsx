@@ -17,7 +17,7 @@ export default function ContactPage() {
 
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-10 sm:py-16">
         <div className="text-center">
-          <Image src="/logo.png" alt="Logo" width={200} height={70} className="logo-adapt mx-auto h-auto w-[150px]" />
+          <Image src="/logo.png" alt="Delux Tech Gadget" width={200} height={70} className="logo-adapt mx-auto h-auto w-[150px]" />
           <p className="mt-4 text-sm italic text-fg-60">
             &ldquo;Powering your everyday, one gadget at a time.&rdquo;
           </p>

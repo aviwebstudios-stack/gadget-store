@@ -87,12 +87,12 @@ export default function AdminSettingsPage() {
 
         {alreadyConnected && step === 1 && (
           <div className="mb-4 rounded-md bg-success/10 px-4 py-3 text-sm text-success">
-            ✓ Telegram is connected. You'll receive newsletter signups here.
+            Telegram is connected. Newsletter signups are sent to this chat.
           </div>
         )}
 
         <p className="mb-6 text-xs text-fg-50">
-          {alreadyConnected ? "Want to reconnect a different bot?" : "Set up in 4 quick steps."}
+          {alreadyConnected ? "To use a different bot, run the steps again." : "Setup takes 4 steps."}
         </p>
 
         <div className="mb-6 flex gap-2">
@@ -107,14 +107,14 @@ export default function AdminSettingsPage() {
         {step === 1 && (
           <div>
             <p className="mb-4 text-sm text-fg-80">
-              <strong>Step 1 of 4</strong> — Create your bot
+              <strong>Step 1 of 4:</strong> Create your bot
             </p>
             <ol className="mb-5 list-decimal space-y-2 pl-5 text-sm text-fg-70">
-              <li>Tap the button below — it opens Telegram</li>
+              <li>Tap the button below. It opens Telegram.</li>
               <li>Tap <strong className="text-fg">START</strong></li>
               <li>Type <code className="rounded bg-fg/10 px-1.5 py-0.5">/newbot</code> and send it</li>
               <li>Follow the two questions it asks (a name, then a username)</li>
-              <li>It will send you a long code — that's your token. Copy it.</li>
+              <li>It sends you a long code. That is your token. Copy it.</li>
             </ol>
             
              <a href="https://t.me/botfather"
@@ -128,7 +128,7 @@ export default function AdminSettingsPage() {
               onClick={() => setStep(2)}
               className="mt-3 w-full text-center text-xs text-fg-50 hover:text-fg"
             >
-              I already have my token →
+              I already have a token
             </button>
           </div>
         )}
@@ -136,7 +136,7 @@ export default function AdminSettingsPage() {
         {step === 2 && (
           <div>
             <p className="mb-4 text-sm text-fg-80">
-              <strong>Step 2 of 4</strong> — Paste your token
+              <strong>Step 2 of 4:</strong> Paste your token
             </p>
             <input
               value={token}
@@ -150,7 +150,7 @@ export default function AdminSettingsPage() {
               disabled={loading}
               className="mt-4 w-full rounded-full bg-fg py-3 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
             >
-              {loading ? "Checking..." : "Continue"}
+              {loading ? "Checking..." : "Check token"}
             </button>
           </div>
         )}
@@ -158,7 +158,7 @@ export default function AdminSettingsPage() {
         {step === 3 && (
           <div>
             <p className="mb-4 text-sm text-fg-80">
-              <strong>Step 3 of 4</strong> — Say hi to your bot
+              <strong>Step 3 of 4:</strong> Message your bot
             </p>
             <p className="mb-5 text-sm text-fg-70">
               Tap the button below, then send any message (like &ldquo;hi&rdquo;) to your bot.
@@ -178,7 +178,7 @@ export default function AdminSettingsPage() {
               disabled={loading}
               className="mt-3 w-full rounded-full border border-fg/25 py-3 text-sm font-semibold text-fg hover:border-fg disabled:opacity-60"
             >
-              {loading ? "Checking..." : "I sent it — Check Connection"}
+              {loading ? "Checking..." : "Check connection"}
             </button>
           </div>
         )}
@@ -186,17 +186,17 @@ export default function AdminSettingsPage() {
         {step === 4 && (
           <div>
             <p className="mb-4 text-sm text-fg-80">
-              <strong>Step 4 of 4</strong> — All set
+              <strong>Step 4 of 4:</strong> Save
             </p>
             <div className="mb-5 rounded-md bg-success/10 px-4 py-3 text-sm text-success">
-              ✓ Your bot is connected and ready.
+              Your bot is connected.
             </div>
             <button
               onClick={handleFinish}
               disabled={loading}
               className="w-full rounded-full bg-fg py-3 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
             >
-              {loading ? "Saving..." : "Finish"}
+              {loading ? "Saving..." : "Save connection"}
             </button>
           </div>
         )}
