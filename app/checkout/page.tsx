@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
-import { formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/format";
 import { ShopNav } from "@/components/ShopNav";
 import { Footer } from "@/components/Footer";
 

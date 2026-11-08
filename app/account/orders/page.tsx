@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/format";
 import { ShopNav } from "@/components/ShopNav";
 import { Footer } from "@/components/Footer";
 

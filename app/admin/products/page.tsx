@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/format";
 
 type Product = {
   id: string;

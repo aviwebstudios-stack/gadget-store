@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/format";
 
 type AdminOrder = {
   id: string;

@@ -1,20 +1,43 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CATEGORIES, formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/format";
 
-const ALL_PRODUCTS = CATEGORIES.flatMap((c) => c.products);
+type Result = { id: string; slug: string; name: string; image: string; priceMin: number };
 
 export function SearchModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [query, setQuery] = useState("");
 
-  const results = useMemo(() => {
-    if (query.trim().length < 2) return [];
-    const q = query.toLowerCase();
-    return ALL_PRODUCTS.filter((p) => p.name.toLowerCase().includes(q)).slice(0, 8);
-  }, [query]);
+  const [results, setResults] = useState<Result[]>([]);
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const q = query.trim();
+
+  useEffect(() => {
+    if (q.length < 2) {
+      setResults([]);
+      setStatus("idle");
+      return;
+    }
+    const controller = new AbortController();
+    setStatus("loading");
+    const timer = setTimeout(() => {
+      fetch(`/api/products/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
+        .then((res) => (res.ok ? res.json() : Promise.reject()))
+        .then((data) => {
+          setResults(data.products ?? []);
+          setStatus("done");
+        })
+        .catch((err) => {
+          if (err?.name !== "AbortError") setStatus("error");
+        });
+    }, 200);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [q]);
 
   if (!open) return null;
 
@@ -44,13 +67,19 @@ export function SearchModal({ open, onClose }: { open: boolean; onClose: () => v
         </div>
 
         <div className="mt-3 max-h-[60vh] overflow-y-auto">
-          {query.trim().length >= 2 && results.length === 0 && (
-            <p className="py-6 text-center text-sm text-fg-50">No products found.</p>
+          {status === "loading" && results.length === 0 && (
+            <p className="py-6 text-center text-sm text-fg-50">Searching...</p>
+          )}
+          {status === "done" && results.length === 0 && (
+            <p className="py-6 text-center text-sm text-fg-50">No products match &ldquo;{q}&rdquo;.</p>
+          )}
+          {status === "error" && (
+            <p className="py-6 text-center text-sm text-danger">Search is not working right now. Try again.</p>
           )}
           {results.map((product) => (
             <Link
               key={product.id}
-              href={`/shop/${product.id}`}
+              href={`/shop/${product.slug}`}
               onClick={onClose}
               className="flex items-center gap-3 rounded-md px-2 py-2 hover:bg-fg/5"
             >

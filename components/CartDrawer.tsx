@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
-import { formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/format";
 
 export function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQty } = useCart();

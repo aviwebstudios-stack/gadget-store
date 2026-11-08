@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "@/lib/prisma";
-import { CATEGORIES } from "@/lib/products";
+import { CATEGORIES } from "@/lib/seed-catalogue";
 
 export async function POST() {
   if (!(await requireAdmin())) {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/format";
 import { ShopNav } from "@/components/ShopNav";
 import { ProductGallery } from "@/components/ProductGallery";
 import { AddToCart } from "@/components/AddToCart";

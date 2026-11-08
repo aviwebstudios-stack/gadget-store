@@ -1,3 +1,6 @@
+// Starter catalogue used only by the admin "Sync Categories" button
+// (app/api/admin/seed-products). The shop and search read the database.
+
 export type Product = {
   id: string;
   name: string;
@@ -278,6 +281,3 @@ export const CATEGORIES: Category[] = [
   },
 ];
 
-export function formatNaira(amount: number) {
-  return `₦${amount.toLocaleString("en-NG")}`;
-}

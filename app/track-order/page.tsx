@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { ShopNav } from "@/components/ShopNav";
 import { Footer } from "@/components/Footer";
-import { formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/format";
 
 type OrderResult = {
   trackingId: string;

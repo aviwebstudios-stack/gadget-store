@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/format";
 
 type Product = {
   slug: string;
