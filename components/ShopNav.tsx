@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
+import { Logo } from "@/components/Logo";
 import Link from "next/link";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { ThemedUserButton } from "@/components/ClerkThemed";
@@ -70,7 +70,7 @@ export function ShopNav() {
         </nav>
 
         <Link href="/" className="absolute left-1/2 -translate-x-1/2">
-          <Image src="/logo.png" alt="Delux Tech Gadget" width={140} height={50} className="logo-adapt h-auto w-[90px] nav:w-[110px]" />
+          <Logo width={140} height={50} className="h-auto w-[90px] nav:w-[110px]" />
         </Link>
 
         <div className="flex items-center gap-4 nav:gap-5">

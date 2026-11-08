@@ -62,12 +62,6 @@ html, body {
   color: rgb(var(--canvas));
 }
 
-/* The logo PNG is white and gold on transparent. On light backgrounds,
-   invert the lightness and keep the hue so it stays readable. */
-html:not(.dark) .logo-adapt {
-  filter: invert(1) hue-rotate(180deg);
-}
-
 @media (prefers-reduced-motion: no-preference) {
   html.theme-transition,
   html.theme-transition *,
