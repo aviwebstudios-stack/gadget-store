@@ -15,7 +15,7 @@ export function ProductGallery({ images, name }: { images: string[]; name: strin
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative aspect-square overflow-hidden rounded-lg bg-white/5">
+      <div className="relative aspect-square overflow-hidden rounded-lg bg-fg/5">
         <Image
           src={images[active]}
           alt={name}
@@ -56,8 +56,8 @@ export function ProductGallery({ images, name }: { images: string[]; name: strin
               onClick={() => setActive(i)}
               className={`shrink-0 overflow-hidden rounded-md border transition-all ${
                 active === i
-                  ? "h-16 w-16 border-white"
-                  : "h-12 w-12 border-white/20 opacity-70"
+                  ? "h-16 w-16 border-fg"
+                  : "h-12 w-12 border-fg/20 opacity-70"
               }`}
             >
               <Image src={img} alt={`${name} ${i + 1}`} width={64} height={64} className="h-full w-full object-cover" />

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AdminLogoutButton } from "@/components/AdminLogoutButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const TABS = [
   {
@@ -82,22 +83,25 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-black pb-20 text-white">
-      <header className="flex items-center justify-between border-b border-white/10 px-6 py-4">
-        <h1 className="text-sm font-semibold tracking-wide text-white/90">
+    <div className="min-h-screen bg-page pb-20 text-fg">
+      <header className="flex items-center justify-between border-b border-fg/10 px-6 py-4">
+        <h1 className="text-sm font-semibold tracking-wide text-fg-90">
           ADMIN
         </h1>
-        <AdminLogoutButton />
+        <div className="flex items-center gap-4">
+          <ThemeToggle className="text-fg-60 hover:text-fg" />
+          <AdminLogoutButton />
+        </div>
       </header>
 
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-8">{children}</div>
 
-      <nav className="fixed bottom-0 left-0 right-0 flex justify-around border-t border-white/10 bg-black py-2">
+      <nav className="fixed bottom-0 left-0 right-0 flex justify-around border-t border-fg/10 bg-page py-2">
         {TABS.map((tab) => (
           <Link
             key={tab.href}
             href={tab.href}
-            className="flex flex-col items-center gap-1 px-4 py-1 text-xs text-white/60 hover:text-white"
+            className="flex flex-col items-center gap-1 px-4 py-1 text-xs text-fg-60 hover:text-fg"
           >
             {tab.icon}
             {tab.label}

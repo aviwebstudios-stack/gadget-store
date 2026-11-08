@@ -52,11 +52,11 @@ export function AddToCart({
       <div className="flex flex-col gap-4">
         {!outOfStock && (
           <div className="flex items-center gap-3">
-            <span className="text-sm text-white/70">Quantity</span>
-            <div className="flex items-center rounded-md border border-white/20">
+            <span className="text-sm text-fg-70">Quantity</span>
+            <div className="flex items-center rounded-md border border-fg/20">
               <button
                 onClick={() => setQty((q) => Math.max(1, q - 1))}
-                className="px-3 py-1.5 text-white/80 hover:text-white"
+                className="px-3 py-1.5 text-fg-80 hover:text-fg"
                 aria-label="Decrease quantity"
               >
                 −
@@ -65,7 +65,7 @@ export function AddToCart({
               <button
                 onClick={() => setQty((q) => Math.min(maxQty, q + 1))}
                 disabled={qty >= maxQty}
-                className="px-3 py-1.5 text-white/80 hover:text-white disabled:opacity-30"
+                className="px-3 py-1.5 text-fg-80 hover:text-fg disabled:opacity-30"
                 aria-label="Increase quantity"
               >
                 +
@@ -77,17 +77,17 @@ export function AddToCart({
         <button
           onClick={handleAdd}
           disabled={outOfStock}
-          className="w-full rounded-full bg-white py-3 text-sm font-semibold text-black transition-colors hover:bg-white/85 disabled:cursor-not-allowed disabled:bg-white/30 disabled:text-white/60"
+          className="w-full rounded-full bg-fg py-3 text-sm font-semibold text-page transition-colors hover:bg-fg/85 disabled:cursor-not-allowed disabled:bg-fg/30 disabled:text-fg-60"
         >
           {outOfStock ? "Out of Stock" : "Add to Cart"}
         </button>
 
-        {added && <p className="text-sm text-green-400">✓ Added to cart</p>}
+        {added && <p className="text-sm text-success">✓ Added to cart</p>}
       </div>
 
       {added && suggestions.length > 0 && (
-        <div className="mt-10 border-t border-white/10 pt-6">
-          <h2 className="mb-4 text-sm font-semibold text-white/90">You may also like</h2>
+        <div className="mt-10 border-t border-fg/10 pt-6">
+          <h2 className="mb-4 text-sm font-semibold text-fg-90">You may also like</h2>
           <div className="grid grid-cols-3 gap-4 sm:grid-cols-6">
             {suggestions.map((p) => (
               <ProductCard key={p.id} product={p} />

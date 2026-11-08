@@ -22,20 +22,20 @@ export default async function FaqPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-page text-fg">
       <ShopNav />
 
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-10 sm:py-16">
         <h1 className="mb-8 text-xl font-semibold sm:text-2xl">Frequently Asked Questions</h1>
 
-        <div className="flex flex-col divide-y divide-white/10 border-t border-white/10">
+        <div className="flex flex-col divide-y divide-fg/10 border-t border-fg/10">
           {faqs.map((item, i) => (
             <details key={i} className="group py-4">
-              <summary className="flex cursor-pointer items-center justify-between text-sm font-medium text-white/90">
+              <summary className="flex cursor-pointer items-center justify-between text-sm font-medium text-fg-90">
                 {item.q}
-                <span className="ml-4 text-white/40 transition-transform group-open:rotate-45">+</span>
+                <span className="ml-4 text-fg-50 transition-transform group-open:rotate-45">+</span>
               </summary>
-              <p className="mt-3 text-sm leading-relaxed text-white/60">{item.a}</p>
+              <p className="mt-3 text-sm leading-relaxed text-fg-60">{item.a}</p>
             </details>
           ))}
         </div>

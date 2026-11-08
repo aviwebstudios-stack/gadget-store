@@ -82,16 +82,16 @@ export default function AdminSettingsPage() {
     <div>
       <h2 className="mb-6 text-lg font-semibold">Settings</h2>
 
-      <div className="rounded-lg border border-white/10 p-5">
+      <div className="rounded-lg border border-fg/10 p-5">
         <h3 className="mb-4 text-sm font-semibold">Telegram Notifications</h3>
 
         {alreadyConnected && step === 1 && (
-          <div className="mb-4 rounded-md bg-green-500/10 px-4 py-3 text-sm text-green-400">
+          <div className="mb-4 rounded-md bg-success/10 px-4 py-3 text-sm text-success">
             ✓ Telegram is connected. You'll receive newsletter signups here.
           </div>
         )}
 
-        <p className="mb-6 text-xs text-white/50">
+        <p className="mb-6 text-xs text-fg-50">
           {alreadyConnected ? "Want to reconnect a different bot?" : "Set up in 4 quick steps."}
         </p>
 
@@ -99,20 +99,20 @@ export default function AdminSettingsPage() {
           {[1, 2, 3, 4].map((n) => (
             <div
               key={n}
-              className={`h-1.5 flex-1 rounded-full ${step >= n ? "bg-white" : "bg-white/15"}`}
+              className={`h-1.5 flex-1 rounded-full ${step >= n ? "bg-fg" : "bg-fg/15"}`}
             />
           ))}
         </div>
 
         {step === 1 && (
           <div>
-            <p className="mb-4 text-sm text-white/80">
+            <p className="mb-4 text-sm text-fg-80">
               <strong>Step 1 of 4</strong> — Create your bot
             </p>
-            <ol className="mb-5 list-decimal space-y-2 pl-5 text-sm text-white/70">
+            <ol className="mb-5 list-decimal space-y-2 pl-5 text-sm text-fg-70">
               <li>Tap the button below — it opens Telegram</li>
-              <li>Tap <strong className="text-white">START</strong></li>
-              <li>Type <code className="rounded bg-white/10 px-1.5 py-0.5">/newbot</code> and send it</li>
+              <li>Tap <strong className="text-fg">START</strong></li>
+              <li>Type <code className="rounded bg-fg/10 px-1.5 py-0.5">/newbot</code> and send it</li>
               <li>Follow the two questions it asks (a name, then a username)</li>
               <li>It will send you a long code — that's your token. Copy it.</li>
             </ol>
@@ -120,13 +120,13 @@ export default function AdminSettingsPage() {
              <a href="https://t.me/botfather"
               target="_blank"
               rel="noreferrer"
-              className="block w-full rounded-full bg-white py-3 text-center text-sm font-semibold text-black hover:bg-white/85"
+              className="block w-full rounded-full bg-fg py-3 text-center text-sm font-semibold text-page hover:bg-fg/85"
             >
               Open BotFather
             </a>
             <button
               onClick={() => setStep(2)}
-              className="mt-3 w-full text-center text-xs text-white/50 hover:text-white"
+              className="mt-3 w-full text-center text-xs text-fg-50 hover:text-fg"
             >
               I already have my token →
             </button>
@@ -135,20 +135,20 @@ export default function AdminSettingsPage() {
 
         {step === 2 && (
           <div>
-            <p className="mb-4 text-sm text-white/80">
+            <p className="mb-4 text-sm text-fg-80">
               <strong>Step 2 of 4</strong> — Paste your token
             </p>
             <input
               value={token}
               onChange={(e) => setToken(e.target.value)}
               placeholder="Paste the code BotFather gave you"
-              className="w-full rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+              className="w-full rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-fg-50 focus:border-fg focus:outline-none"
             />
-            {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+            {error && <p className="mt-2 text-xs text-danger">{error}</p>}
             <button
               onClick={handleVerifyToken}
               disabled={loading}
-              className="mt-4 w-full rounded-full bg-white py-3 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
+              className="mt-4 w-full rounded-full bg-fg py-3 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
             >
               {loading ? "Checking..." : "Continue"}
             </button>
@@ -157,10 +157,10 @@ export default function AdminSettingsPage() {
 
         {step === 3 && (
           <div>
-            <p className="mb-4 text-sm text-white/80">
+            <p className="mb-4 text-sm text-fg-80">
               <strong>Step 3 of 4</strong> — Say hi to your bot
             </p>
-            <p className="mb-5 text-sm text-white/70">
+            <p className="mb-5 text-sm text-fg-70">
               Tap the button below, then send any message (like &ldquo;hi&rdquo;) to your bot.
               This lets it know where to send you alerts.
             </p>
@@ -168,15 +168,15 @@ export default function AdminSettingsPage() {
              <a href={`https://t.me/${botUsername}`}
               target="_blank"
               rel="noreferrer"
-              className="block w-full rounded-full bg-white py-3 text-center text-sm font-semibold text-black hover:bg-white/85"
+              className="block w-full rounded-full bg-fg py-3 text-center text-sm font-semibold text-page hover:bg-fg/85"
             >
               Open Your Bot
             </a>
-            {error && <p className="mt-3 text-xs text-red-400">{error}</p>}
+            {error && <p className="mt-3 text-xs text-danger">{error}</p>}
             <button
               onClick={handleCheckConnection}
               disabled={loading}
-              className="mt-3 w-full rounded-full border border-white/25 py-3 text-sm font-semibold text-white hover:border-white disabled:opacity-60"
+              className="mt-3 w-full rounded-full border border-fg/25 py-3 text-sm font-semibold text-fg hover:border-fg disabled:opacity-60"
             >
               {loading ? "Checking..." : "I sent it — Check Connection"}
             </button>
@@ -185,16 +185,16 @@ export default function AdminSettingsPage() {
 
         {step === 4 && (
           <div>
-            <p className="mb-4 text-sm text-white/80">
+            <p className="mb-4 text-sm text-fg-80">
               <strong>Step 4 of 4</strong> — All set
             </p>
-            <div className="mb-5 rounded-md bg-green-500/10 px-4 py-3 text-sm text-green-400">
+            <div className="mb-5 rounded-md bg-success/10 px-4 py-3 text-sm text-success">
               ✓ Your bot is connected and ready.
             </div>
             <button
               onClick={handleFinish}
               disabled={loading}
-              className="w-full rounded-full bg-white py-3 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
+              className="w-full rounded-full bg-fg py-3 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
             >
               {loading ? "Saving..." : "Finish"}
             </button>

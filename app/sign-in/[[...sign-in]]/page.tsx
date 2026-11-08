@@ -1,9 +1,9 @@
-import { SignIn } from "@clerk/nextjs";
+import { ThemedSignIn } from "@/components/ClerkThemed";
 
 export default function SignInPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black">
-      <SignIn appearance={{ variables: { colorPrimary: "#ffffff" } }} forceRedirectUrl="/account/orders" />
+    <main className="flex min-h-screen items-center justify-center bg-page">
+      <ThemedSignIn />
     </main>
   );
 }

@@ -141,7 +141,7 @@ export default function AdminContentPage() {
             key={p.key}
             onClick={() => setSection(p.key as "terms" | "privacy")}
             className={`rounded-full px-4 py-1.5 text-xs ${
-              section === p.key ? "bg-white text-black" : "border border-white/20 text-white/70"
+              section === p.key ? "bg-fg text-page" : "border border-fg/20 text-fg-70"
             }`}
           >
             {p.label}
@@ -150,7 +150,7 @@ export default function AdminContentPage() {
         <button
           onClick={() => setSection("categories")}
           className={`rounded-full px-4 py-1.5 text-xs ${
-            section === "categories" ? "bg-white text-black" : "border border-white/20 text-white/70"
+            section === "categories" ? "bg-fg text-page" : "border border-fg/20 text-fg-70"
           }`}
         >
           Shop Tabs
@@ -158,7 +158,7 @@ export default function AdminContentPage() {
         <button
           onClick={() => setSection("contact")}
           className={`rounded-full px-4 py-1.5 text-xs ${
-            section === "contact" ? "bg-white text-black" : "border border-white/20 text-white/70"
+            section === "contact" ? "bg-fg text-page" : "border border-fg/20 text-fg-70"
           }`}
         >
           Contact Us
@@ -166,7 +166,7 @@ export default function AdminContentPage() {
         <button
           onClick={() => setSection("faq")}
           className={`rounded-full px-4 py-1.5 text-xs ${
-            section === "faq" ? "bg-white text-black" : "border border-white/20 text-white/70"
+            section === "faq" ? "bg-fg text-page" : "border border-fg/20 text-fg-70"
           }`}
         >
           FAQ
@@ -179,12 +179,12 @@ export default function AdminContentPage() {
             value={textValue}
             onChange={(e) => setTextValue(e.target.value)}
             rows={16}
-            className="w-full rounded-md border border-white/20 bg-transparent p-4 text-sm text-white focus:border-white focus:outline-none"
+            className="w-full rounded-md border border-fg/20 bg-transparent p-4 text-sm text-fg focus:border-fg focus:outline-none"
           />
           <button
             onClick={saveText}
             disabled={textStatus === "saving"}
-            className="mt-4 rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
+            className="mt-4 rounded-full bg-fg px-6 py-2.5 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
           >
             {textStatus === "saving" ? "Saving..." : textStatus === "saved" ? "Saved ✓" : "Save"}
           </button>
@@ -198,21 +198,21 @@ export default function AdminContentPage() {
               value={newCategoryName}
               onChange={(e) => setNewCategoryName(e.target.value)}
               placeholder="New category name"
-              className="flex-1 rounded-md border border-white/20 bg-transparent px-4 py-2 text-sm focus:border-white focus:outline-none"
+              className="flex-1 rounded-md border border-fg/20 bg-transparent px-4 py-2 text-sm focus:border-fg focus:outline-none"
             />
-            <button onClick={addCategory} className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-black">
+            <button onClick={addCategory} className="rounded-md bg-fg px-4 py-2 text-sm font-semibold text-page">
               Add
             </button>
           </div>
           <div className="flex flex-col gap-2">
             {categories.map((c) => (
-              <div key={c.id} className="flex items-center gap-2 rounded-md border border-white/10 p-2">
+              <div key={c.id} className="flex items-center gap-2 rounded-md border border-fg/10 p-2">
                 <input
                   defaultValue={c.name}
                   onBlur={(e) => renameCategory(c.id, e.target.value)}
                   className="flex-1 bg-transparent px-2 text-sm focus:outline-none"
                 />
-                <button onClick={() => deleteCategory(c.id)} className="text-xs text-red-400 hover:text-red-300">
+                <button onClick={() => deleteCategory(c.id)} className="text-xs text-danger hover:text-danger-hover">
                   Delete
                 </button>
               </div>
@@ -227,30 +227,30 @@ export default function AdminContentPage() {
             value={contact.motto}
             onChange={(e) => setContact({ ...contact, motto: e.target.value })}
             placeholder="Motto / tagline"
-            className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm focus:border-white focus:outline-none"
+            className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm focus:border-fg focus:outline-none"
           />
           <input
             value={contact.address}
             onChange={(e) => setContact({ ...contact, address: e.target.value })}
             placeholder="Store address"
-            className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm focus:border-white focus:outline-none"
+            className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm focus:border-fg focus:outline-none"
           />
           <input
             value={contact.phone}
             onChange={(e) => setContact({ ...contact, phone: e.target.value })}
             placeholder="Phone number"
-            className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm focus:border-white focus:outline-none"
+            className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm focus:border-fg focus:outline-none"
           />
           <input
             value={contact.whatsapp}
             onChange={(e) => setContact({ ...contact, whatsapp: e.target.value })}
             placeholder="WhatsApp number (e.g. 2347070531239)"
-            className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm focus:border-white focus:outline-none"
+            className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm focus:border-fg focus:outline-none"
           />
           <button
             onClick={saveContact}
             disabled={contactStatus === "saving"}
-            className="mt-2 rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
+            className="mt-2 rounded-full bg-fg px-6 py-2.5 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
           >
             {contactStatus === "saving" ? "Saving..." : contactStatus === "saved" ? "Saved ✓" : "Save"}
           </button>
@@ -261,7 +261,7 @@ export default function AdminContentPage() {
         <div>
           <div className="flex flex-col gap-4">
             {faqItems.map((item, i) => (
-              <div key={i} className="rounded-md border border-white/10 p-3">
+              <div key={i} className="rounded-md border border-fg/10 p-3">
                 <input
                   value={item.q}
                   onChange={(e) => {
@@ -281,11 +281,11 @@ export default function AdminContentPage() {
                   }}
                   rows={2}
                   placeholder="Answer"
-                  className="w-full bg-transparent text-sm text-white/70 focus:outline-none"
+                  className="w-full bg-transparent text-sm text-fg-70 focus:outline-none"
                 />
                 <button
                   onClick={() => setFaqItems(faqItems.filter((_, idx) => idx !== i))}
-                  className="mt-2 text-xs text-red-400 hover:text-red-300"
+                  className="mt-2 text-xs text-danger hover:text-danger-hover"
                 >
                   Remove
                 </button>
@@ -294,14 +294,14 @@ export default function AdminContentPage() {
           </div>
           <button
             onClick={() => setFaqItems([...faqItems, { q: "", a: "" }])}
-            className="mt-4 rounded-full border border-white/25 px-4 py-2 text-xs hover:border-white"
+            className="mt-4 rounded-full border border-fg/25 px-4 py-2 text-xs hover:border-fg"
           >
             + Add Question
           </button>
           <button
             onClick={saveFaq}
             disabled={faqStatus === "saving"}
-            className="mt-4 block rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
+            className="mt-4 block rounded-full bg-fg px-6 py-2.5 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
           >
             {faqStatus === "saving" ? "Saving..." : faqStatus === "saved" ? "Saved ✓" : "Save"}
           </button>

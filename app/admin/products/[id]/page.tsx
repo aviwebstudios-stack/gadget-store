@@ -123,7 +123,7 @@ export default function EditProductPage() {
     }
   }
 
-  if (!product) return <p className="text-sm text-white/50">Loading...</p>;
+  if (!product) return <p className="text-sm text-fg-50">Loading...</p>;
 
   return (
     <div>
@@ -131,13 +131,13 @@ export default function EditProductPage() {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
-          <label className="mb-1 block text-xs text-white/60">Cover image</label>
+          <label className="mb-1 block text-xs text-fg-60">Cover image</label>
           <input type="file" accept="image/*" onChange={handleCoverChange} className="text-sm" />
           {coverPreview && <img src={coverPreview} alt="Cover preview" className="mt-3 h-24 w-24 rounded-md object-cover" />}
         </div>
 
         <div>
-          <label className="mb-1 block text-xs text-white/60">Gallery photos</label>
+          <label className="mb-1 block text-xs text-fg-60">Gallery photos</label>
           <div className="mb-2 flex flex-wrap gap-2">
             {galleryUrls.map((url, i) => (
               <div key={`existing-${i}`} className="relative h-16 w-16">
@@ -171,7 +171,7 @@ export default function EditProductPage() {
           required
           value={product.name}
           onChange={(e) => setProduct({ ...product, name: e.target.value })}
-          className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm focus:border-white focus:outline-none"
+          className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm focus:border-fg focus:outline-none"
         />
 
         <textarea
@@ -179,13 +179,13 @@ export default function EditProductPage() {
           onChange={(e) => setProduct({ ...product, description: e.target.value })}
           rows={4}
           placeholder="Description"
-          className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+          className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-fg-50 focus:border-fg focus:outline-none"
         />
 
         <select
           value={product.category}
           onChange={(e) => setProduct({ ...product, category: e.target.value })}
-          className="rounded-md border border-white/20 bg-black px-4 py-2.5 text-sm focus:border-white focus:outline-none"
+          className="rounded-md border border-fg/20 bg-page px-4 py-2.5 text-sm focus:border-fg focus:outline-none"
         >
           {categories.map((c) => (
             <option key={c} value={c}>{c}</option>
@@ -199,7 +199,7 @@ export default function EditProductPage() {
             value={product.priceMin}
             onChange={(e) => setProduct({ ...product, priceMin: Number(e.target.value) })}
             placeholder="Price (₦)"
-            className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm focus:border-white focus:outline-none"
+            className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm focus:border-fg focus:outline-none"
           />
           <input
             required
@@ -207,11 +207,11 @@ export default function EditProductPage() {
             value={product.quantity}
             onChange={(e) => setProduct({ ...product, quantity: Number(e.target.value) })}
             placeholder="Quantity in stock"
-            className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm focus:border-white focus:outline-none"
+            className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm focus:border-fg focus:outline-none"
           />
         </div>
 
-        <label className="flex items-center gap-2 text-sm text-white/80">
+        <label className="flex items-center gap-2 text-sm text-fg-80">
           <input
             type="checkbox"
             checked={product.inStock}
@@ -221,7 +221,7 @@ export default function EditProductPage() {
         </label>
 
         <div className="flex gap-6">
-          <label className="flex items-center gap-2 text-sm text-white/80">
+          <label className="flex items-center gap-2 text-sm text-fg-80">
             <input
               type="checkbox"
               checked={product.isNewArrival}
@@ -229,7 +229,7 @@ export default function EditProductPage() {
             />
             New Arrival
           </label>
-          <label className="flex items-center gap-2 text-sm text-white/80">
+          <label className="flex items-center gap-2 text-sm text-fg-80">
             <input
               type="checkbox"
               checked={product.isOnSale}
@@ -239,12 +239,12 @@ export default function EditProductPage() {
           </label>
         </div>
 
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        {error && <p className="text-xs text-danger">{error}</p>}
 
         <button
           type="submit"
           disabled={saving}
-          className="mt-2 rounded-full bg-white py-3 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
+          className="mt-2 rounded-full bg-fg py-3 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
         >
           {saving ? "Saving..." : "Save Changes"}
         </button>

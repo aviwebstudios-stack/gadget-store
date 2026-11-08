@@ -33,9 +33,9 @@ export default function AdminSetupPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-black px-4">
-      <p className="mb-2 text-xs font-semibold tracking-widest text-white/50">ONE-TIME ADMIN SETUP</p>
-      <p className="mb-6 max-w-xs text-center text-xs text-white/40">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-page px-4">
+      <p className="mb-2 text-xs font-semibold tracking-widest text-fg-50">ONE-TIME ADMIN SETUP</p>
+      <p className="mb-6 max-w-xs text-center text-xs text-fg-50">
         This only works once. After the first admin account is created, this page will refuse to create another.
       </p>
 
@@ -45,7 +45,7 @@ export default function AdminSetupPage() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Choose a username"
-          className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-white focus:outline-none"
+          className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm text-fg placeholder:text-fg-50 focus:border-fg focus:outline-none"
         />
         <input
           required
@@ -53,20 +53,20 @@ export default function AdminSetupPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Choose a password (8+ characters)"
-          className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-white focus:outline-none"
+          className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm text-fg placeholder:text-fg-50 focus:border-fg focus:outline-none"
         />
         <input
           required
           value={setupKey}
           onChange={(e) => setSetupKey(e.target.value)}
           placeholder="Setup key (from your .env)"
-          className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-white focus:outline-none"
+          className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm text-fg placeholder:text-fg-50 focus:border-fg focus:outline-none"
         />
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        {error && <p className="text-xs text-danger">{error}</p>}
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 rounded-full bg-white py-3 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
+          className="mt-2 rounded-full bg-fg py-3 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
         >
           {loading ? "Creating..." : "Create Admin Account"}
         </button>

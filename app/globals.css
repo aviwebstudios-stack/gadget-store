@@ -2,17 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Colour tokens. Channel values (no rgb()) so Tailwind opacity modifiers
+  like border-fg/10 keep working. Text levels are full colours because the
+  light theme needs solid values to pass WCAG AA.
+  Dark is the default; the "dark" class is rendered on <html> by the server.
+*/
 :root {
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* light */
+  --page: 245 241 234;
+  --canvas: 245 241 234;
+  --surface: 251 248 243;
+  --fg: 28 25 22;
+  --fg-90: #2a2622;
+  --fg-80: #38332e;
+  --fg-70: #46403a;
+  --fg-60: #57514a;
+  --fg-50: #655e57;
+  --success: 22 101 52;
+  --danger: 185 28 28;
+  --danger-hover: 153 27 27;
+  --warning: 154 52 18;
+  --caution: 133 77 14;
+  --info: 29 78 216;
+  --accent: 126 34 206;
+  color-scheme: light;
+}
+
+.dark {
+  --page: 0 0 0;
+  --canvas: 10 10 10;
+  --surface: 0 0 0;
+  --fg: 255 255 255;
+  --fg-90: rgb(255 255 255 / 0.9);
+  --fg-80: rgb(255 255 255 / 0.8);
+  --fg-70: rgb(255 255 255 / 0.7);
+  --fg-60: rgb(255 255 255 / 0.6);
+  --fg-50: rgb(255 255 255 / 0.5);
+  --success: 74 222 128;
+  --danger: 248 113 113;
+  --danger-hover: 252 165 165;
+  --warning: 251 146 60;
+  --caution: 250 204 21;
+  --info: 96 165 250;
+  --accent: 192 132 252;
+  color-scheme: dark;
 }
 
 html, body {
   height: 100%;
-  background: #0a0a0a;
+  background: rgb(var(--canvas));
 }
 
 ::selection {
-  background: #ffffff;
-  color: #0a0a0a;
+  background: rgb(var(--fg));
+  color: rgb(var(--canvas));
+}
+
+/* The logo PNG is white and gold on transparent. On light backgrounds,
+   invert the lightness and keep the hue so it stays readable. */
+html:not(.dark) .logo-adapt {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-transition,
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease, fill 200ms ease !important;
+  }
 }

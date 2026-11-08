@@ -38,24 +38,24 @@ export default function CheckoutSuccessPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-page text-fg">
       <ShopNav />
       <div className="mx-auto flex max-w-2xl flex-col items-center px-6 py-24 text-center">
-        {status === "checking" && <p className="text-sm text-white/60">Confirming your payment...</p>}
+        {status === "checking" && <p className="text-sm text-fg-60">Confirming your payment...</p>}
 
         {status === "success" && (
           <>
             <p className="mb-3 text-4xl">✓</p>
             <h1 className="text-xl font-semibold">Payment successful</h1>
-            <p className="mt-2 text-sm text-white/60">
+            <p className="mt-2 text-sm text-fg-60">
               Your order is confirmed. We&apos;ll reach out shortly with delivery details.
             </p>
 
             {trackingId && (
-              <div className="mt-6 rounded-lg border border-white/10 px-6 py-4">
-                <p className="text-xs text-white/50">Your tracking ID</p>
+              <div className="mt-6 rounded-lg border border-fg/10 px-6 py-4">
+                <p className="text-xs text-fg-50">Your tracking ID</p>
                 <p className="mt-1 text-lg font-semibold tracking-wide">{trackingId}</p>
-                <p className="mt-2 text-xs text-white/40">Save this to track your order status later.</p>
+                <p className="mt-2 text-xs text-fg-50">Save this to track your order status later.</p>
               </div>
             )}
           </>
@@ -65,7 +65,7 @@ export default function CheckoutSuccessPage() {
           <>
             <p className="mb-3 text-4xl">✕</p>
             <h1 className="text-xl font-semibold">Payment not confirmed</h1>
-            <p className="mt-2 text-sm text-white/60">
+            <p className="mt-2 text-sm text-fg-60">
               Something went wrong verifying your payment. If you were charged, contact support.
             </p>
           </>
@@ -75,12 +75,12 @@ export default function CheckoutSuccessPage() {
           {trackingId && (
             <Link
               href={`/track-order?id=${trackingId}`}
-              className="rounded-full border border-white/30 px-6 py-2.5 text-sm font-semibold text-white hover:border-white"
+              className="rounded-full border border-fg/30 px-6 py-2.5 text-sm font-semibold text-fg hover:border-fg"
             >
               Track Order
             </Link>
           )}
-          <Link href="/shop" className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black hover:bg-white/85">
+          <Link href="/shop" className="rounded-full bg-fg px-6 py-2.5 text-sm font-semibold text-page hover:bg-fg/85">
             Continue Shopping
           </Link>
         </div>

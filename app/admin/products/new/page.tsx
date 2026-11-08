@@ -107,7 +107,7 @@ export default function NewProductPage() {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
-          <label className="mb-1 block text-xs text-white/60">Cover image (main photo)</label>
+          <label className="mb-1 block text-xs text-fg-60">Cover image (main photo)</label>
           <input type="file" accept="image/*" onChange={handleCoverChange} className="text-sm" />
           {coverPreview && (
             <img src={coverPreview} alt="Cover preview" className="mt-3 h-24 w-24 rounded-md object-cover" />
@@ -115,7 +115,7 @@ export default function NewProductPage() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs text-white/60">Additional gallery photos (optional)</label>
+          <label className="mb-1 block text-xs text-fg-60">Additional gallery photos (optional)</label>
           <input type="file" accept="image/*" multiple onChange={handleGalleryChange} className="text-sm" />
           {galleryPreviews.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-2">
@@ -140,7 +140,7 @@ export default function NewProductPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Product name"
-          className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+          className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-fg-50 focus:border-fg focus:outline-none"
         />
 
         <textarea
@@ -148,13 +148,13 @@ export default function NewProductPage() {
           onChange={(e) => setDescription(e.target.value)}
           rows={4}
           placeholder="Description"
-          className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+          className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-fg-50 focus:border-fg focus:outline-none"
         />
 
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="rounded-md border border-white/20 bg-black px-4 py-2.5 text-sm focus:border-white focus:outline-none"
+          className="rounded-md border border-fg/20 bg-page px-4 py-2.5 text-sm focus:border-fg focus:outline-none"
         >
           {categories.map((c) => (
             <option key={c} value={c}>{c}</option>
@@ -168,7 +168,7 @@ export default function NewProductPage() {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             placeholder="Price (₦)"
-            className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+            className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-fg-50 focus:border-fg focus:outline-none"
           />
           <input
             required
@@ -176,27 +176,27 @@ export default function NewProductPage() {
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
             placeholder="Quantity in stock"
-            className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+            className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-fg-50 focus:border-fg focus:outline-none"
           />
         </div>
 
         <div className="flex gap-6">
-          <label className="flex items-center gap-2 text-sm text-white/80">
+          <label className="flex items-center gap-2 text-sm text-fg-80">
             <input type="checkbox" checked={isNewArrival} onChange={(e) => setIsNewArrival(e.target.checked)} />
             New Arrival
           </label>
-          <label className="flex items-center gap-2 text-sm text-white/80">
+          <label className="flex items-center gap-2 text-sm text-fg-80">
             <input type="checkbox" checked={isOnSale} onChange={(e) => setIsOnSale(e.target.checked)} />
             On Sale
           </label>
         </div>
 
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        {error && <p className="text-xs text-danger">{error}</p>}
 
         <button
           type="submit"
           disabled={saving}
-          className="mt-2 rounded-full bg-white py-3 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60"
+          className="mt-2 rounded-full bg-fg py-3 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60"
         >
           {saving ? "Saving..." : "Save Product"}
         </button>

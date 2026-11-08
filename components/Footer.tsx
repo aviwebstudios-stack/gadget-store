@@ -29,10 +29,10 @@ const COLUMNS = [
 
 export function Footer() {
   return (
-    <footer className="w-full bg-black px-6 py-10 text-white sm:px-12">
+    <footer className="w-full bg-page px-6 py-10 text-fg sm:px-12">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-sm">
-          <p className="mb-3 text-xs font-semibold tracking-widest text-white/70">
+          <p className="mb-3 text-xs font-semibold tracking-widest text-fg-70">
             SUBSCRIBE TO OUR NEWSLETTER
           </p>
           <NewsletterForm />
@@ -41,7 +41,7 @@ export function Footer() {
         <div className="mt-8 grid grid-cols-3 gap-3 sm:mt-10 sm:gap-10">
           {COLUMNS.map((col) => (
             <div key={col.heading}>
-              <p className="mb-2 text-[10px] tracking-widest text-white/50 sm:mb-4 sm:text-xs">
+              <p className="mb-2 text-[10px] tracking-widest text-fg-50 sm:mb-4 sm:text-xs">
                 ({col.heading})
               </p>
               <ul className="space-y-1.5 sm:space-y-3">
@@ -49,7 +49,7 @@ export function Footer() {
                   <li key={link.href}>
                     
                      <a href={link.href}
-                      className="text-xs text-white/90 hover:text-white sm:text-sm"
+                      className="text-xs text-fg-90 hover:text-fg sm:text-sm"
                     >
                       {link.label}
                     </a>
@@ -66,11 +66,11 @@ export function Footer() {
             alt="Logo"
             width={280}
             height={100}
-            className="h-auto w-[160px] sm:w-[220px]"
+            className="logo-adapt h-auto w-[160px] sm:w-[220px]"
           />
         </div>
 
-        <div className="mt-4 flex flex-row items-center justify-between gap-3 text-[10px] text-white/50 sm:mt-6 sm:text-xs">
+        <div className="mt-4 flex flex-row items-center justify-between gap-3 text-[10px] text-fg-50 sm:mt-6 sm:text-xs">
           <span>© {new Date().getFullYear()} All rights reserved.</span>
           <span>
             POWERED BY{" "}
@@ -78,7 +78,7 @@ export function Footer() {
            <a href="https://wa.me/+2348059060395"
               target="_blank"
               rel="noreferrer"
-              className="font-semibold text-white/80 underline hover:text-white"
+              className="font-semibold text-fg-80 underline hover:text-fg"
             >
               AVI&apos;S WEB STUDIOS
             </a>

@@ -49,11 +49,11 @@ export default function ShopPage() {
       : categories.find((c) => c.name === activeTab)?.products ?? [];
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <div className="sticky top-0 z-20 bg-black">
+    <main className="min-h-screen bg-page text-fg">
+      <div className="sticky top-0 z-20 bg-page">
         <ShopNav />
 
-        <div className="overflow-x-auto border-b border-white/10 bg-black [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="overflow-x-auto border-b border-fg/10 bg-page [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="mx-auto flex max-w-7xl gap-6 px-6 py-3 sm:px-10">
             {tabs.map((tab) => (
               <button
@@ -61,13 +61,13 @@ export default function ShopPage() {
                 onClick={() => setActiveTab(tab)}
                 className={`group relative inline-block shrink-0 whitespace-nowrap py-1 text-sm transition-colors ${
                   activeTab === tab
-                    ? "font-semibold text-white"
-                    : "text-white/50 hover:text-white/80"
+                    ? "font-semibold text-fg"
+                    : "text-fg-50 hover:text-fg-80"
                 }`}
               >
                 {tab}
                 <span
-                  className={`absolute -bottom-0.5 left-0 h-[2px] bg-white transition-all duration-300 ease-out ${
+                  className={`absolute -bottom-0.5 left-0 h-[2px] bg-fg transition-all duration-300 ease-out ${
                     activeTab === tab ? "w-full" : "w-0 group-hover:w-full"
                   }`}
                 />

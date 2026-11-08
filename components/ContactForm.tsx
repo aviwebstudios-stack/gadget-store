@@ -29,7 +29,7 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <p className="rounded-md bg-green-500/10 px-4 py-3 text-sm text-green-400">
+      <p className="rounded-md bg-success/10 px-4 py-3 text-sm text-success">
         ✓ Message sent — we'll get back to you soon.
       </p>
     );
@@ -42,7 +42,7 @@ export function ContactForm() {
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Your name"
-        className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+        className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-fg-50 focus:border-fg focus:outline-none"
       />
       <input
         required
@@ -50,7 +50,7 @@ export function ContactForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Your email"
-        className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+        className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-fg-50 focus:border-fg focus:outline-none"
       />
       <textarea
         required
@@ -58,13 +58,13 @@ export function ContactForm() {
         onChange={(e) => setMessage(e.target.value)}
         rows={5}
         placeholder="How can we help?"
-        className="rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-white focus:outline-none"
+        className="rounded-md border border-fg/20 bg-transparent px-4 py-2.5 text-sm placeholder:text-fg-50 focus:border-fg focus:outline-none"
       />
-      {status === "error" && <p className="text-xs text-red-400">Could not send. Try again.</p>}
+      {status === "error" && <p className="text-xs text-danger">Could not send. Try again.</p>}
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full rounded-full bg-white py-3 text-sm font-semibold text-black hover:bg-white/85 disabled:opacity-60 sm:w-auto sm:px-8"
+        className="w-full rounded-full bg-fg py-3 text-sm font-semibold text-page hover:bg-fg/85 disabled:opacity-60 sm:w-auto sm:px-8"
       >
         {status === "sending" ? "Sending..." : "Send Message"}
       </button>

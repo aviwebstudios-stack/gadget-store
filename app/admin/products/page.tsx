@@ -67,7 +67,7 @@ export default function AdminProductsPage() {
     });
   }
 
-  if (loading) return <p className="text-sm text-white/50">Loading products...</p>;
+  if (loading) return <p className="text-sm text-fg-50">Loading products...</p>;
 
   return (
     <div>
@@ -77,32 +77,32 @@ export default function AdminProductsPage() {
           <button
             onClick={handleImport}
             disabled={importing}
-            className="rounded-full border border-white/25 px-4 py-2 text-xs font-medium hover:border-white disabled:opacity-60"
+            className="rounded-full border border-fg/25 px-4 py-2 text-xs font-medium hover:border-fg disabled:opacity-60"
           >
             {importing ? "Syncing..." : "Sync Categories"}
           </button>
           <Link
             href="/admin/products/new"
-            className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-black hover:bg-white/85"
+            className="rounded-full bg-fg px-4 py-2 text-xs font-semibold text-page hover:bg-fg/85"
           >
             + Add Product
           </Link>
         </div>
       </div>
 
-      {importMsg && <p className="mb-4 text-xs text-white/60">{importMsg}</p>}
+      {importMsg && <p className="mb-4 text-xs text-fg-60">{importMsg}</p>}
 
       <div className="flex flex-col gap-3">
         {products.map((p) => (
-          <div key={p.id} className="flex items-center gap-4 rounded-lg border border-white/10 p-4">
-            <div className="h-14 w-14 shrink-0 overflow-hidden rounded-md bg-white/5">
+          <div key={p.id} className="flex items-center gap-4 rounded-lg border border-fg/10 p-4">
+            <div className="h-14 w-14 shrink-0 overflow-hidden rounded-md bg-fg/5">
               <Image src={p.image} alt={p.name} width={56} height={56} className="h-full w-full object-cover" />
             </div>
             <div className="flex-1">
               <p className="line-clamp-1 text-sm font-medium">{p.name}</p>
-              <p className="text-xs text-white/50">{p.category} · {formatNaira(p.priceMin)}</p>
+              <p className="text-xs text-fg-50">{p.category} · {formatNaira(p.priceMin)}</p>
             </div>
-            <label className="flex items-center gap-1.5 text-xs text-white/60">
+            <label className="flex items-center gap-1.5 text-xs text-fg-60">
               <input
                 type="checkbox"
                 checked={p.inStock}
@@ -110,10 +110,10 @@ export default function AdminProductsPage() {
               />
               In stock
             </label>
-            <Link href={`/admin/products/${p.id}`} className="text-xs text-white/60 hover:text-white">
+            <Link href={`/admin/products/${p.id}`} className="text-xs text-fg-60 hover:text-fg">
               Edit
             </Link>
-            <button onClick={() => handleDelete(p.id)} className="text-xs text-red-400 hover:text-red-300">
+            <button onClick={() => handleDelete(p.id)} className="text-xs text-danger hover:text-danger-hover">
               Delete
             </button>
           </div>

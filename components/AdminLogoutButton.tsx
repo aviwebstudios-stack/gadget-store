@@ -12,7 +12,7 @@ export function AdminLogoutButton() {
   }
 
   return (
-    <button onClick={handleLogout} className="text-xs text-white/50 hover:text-white">
+    <button onClick={handleLogout} className="text-xs text-fg-50 hover:text-fg">
       Log out
     </button>
   );
