@@ -6,3 +6,9 @@ dist
 .DS_Store
 public/hero1.mp4
 public/hero2.mp4
+
+# Local tooling
+CLAUDE.md
+.claude/
+.cursor/
+.cursorrules
