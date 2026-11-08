@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { ShopNav } from "@/components/ShopNav";
 import { Footer } from "@/components/Footer";
@@ -5,6 +7,8 @@ import { ContactForm } from "@/components/ContactForm";
 
 
 const WHATSAPP_LINK = "https://wa.me/2347070531239";
+
+export const metadata: Metadata = pageMetadata("Contact", "Visit Delux Tech Gadget on Guobadia Rd, Oka, Benin City, call 0707 053 1239, message us on WhatsApp or send a message here.");
 
 export default function ContactPage() {
   return (

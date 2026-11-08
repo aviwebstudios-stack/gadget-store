@@ -1,6 +1,10 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { prisma } from "@/lib/prisma";
 import { ShopNav } from "@/components/ShopNav";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = pageMetadata("Terms and conditions", "The terms that apply when you buy from Delux Tech Gadget.");
 
 export default async function TermsPage() {
   const record = await prisma.siteContent.findUnique({ where: { key: "terms" } });

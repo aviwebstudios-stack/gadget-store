@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatNaira } from "@/lib/products";
@@ -6,6 +7,16 @@ import { ProductGallery } from "@/components/ProductGallery";
 import { AddToCart } from "@/components/AddToCart";
 import { BackButton } from "@/components/BackButton";
 import { Footer } from "@/components/Footer";
+import { pageMetadata } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const product = await prisma.product.findUnique({ where: { slug: params.id } });
+  if (!product) return { title: "Product not found" };
+  const description = product.description?.trim()
+    ? product.description.trim().slice(0, 155)
+    : `${product.name}, ${formatNaira(product.priceMin)} at Delux Tech Gadget.`;
+  return pageMetadata(product.name, description, product.image);
+}
 
 export default async function ProductPage({ params }: { params: { id: string } }) {
   const product = await prisma.product.findUnique({ where: { slug: params.id } });

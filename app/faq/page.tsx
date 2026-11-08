@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { prisma } from "@/lib/prisma";
 import { ShopNav } from "@/components/ShopNav";
 import { Footer } from "@/components/Footer";
@@ -10,6 +12,8 @@ const DEFAULT_FAQS = [
   { q: "Do I need an account to shop?", a: "You can browse and add items to your cart without an account, but you'll need to sign in to complete checkout so we can keep your order history accessible to you." },
   { q: "How can I contact support?", a: "Visit the Contact page for our phone number, address, and a message form." },
 ];
+
+export const metadata: Metadata = pageMetadata("FAQ", "Answers about paying, shipping, warranty, accounts and tracking orders at Delux Tech Gadget.");
 
 export default async function FaqPage() {
   const record = await prisma.siteContent.findUnique({ where: { key: "faq_items" } });

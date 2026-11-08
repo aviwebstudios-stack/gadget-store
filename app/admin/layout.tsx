@@ -1,6 +1,13 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { AdminLogoutButton } from "@/components/AdminLogoutButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
+
+export const metadata: Metadata = {
+  title: { default: "Admin", template: "%s | Admin | Delux Tech Gadget" },
+  description: "Store admin for Delux Tech Gadget.",
+  robots: { index: false, follow: false },
+};
 
 const TABS = [
   {

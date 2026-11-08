@@ -1,7 +1,11 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { prisma } from "@/lib/prisma";
 import { ShopNav } from "@/components/ShopNav";
 import { ProductCard } from "@/components/ProductCard";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = pageMetadata("New arrivals", "Phones, laptops, cameras and other gadgets most recently added to Delux Tech Gadget.");
 
 export default async function NewArrivalsPage() {
   const products = await prisma.product.findMany({

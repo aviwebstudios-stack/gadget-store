@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +16,8 @@ const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   delivered: { label: "Delivered", color: "text-success" },
   failed: { label: "Payment Failed", color: "text-danger" },
 };
+
+export const metadata: Metadata = pageMetadata("Your orders", "Every order you have placed with Delux Tech Gadget, with tracking IDs and status.");
 
 export default async function OrdersPage() {
   const { userId } = auth();

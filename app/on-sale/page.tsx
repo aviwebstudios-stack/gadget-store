@@ -1,7 +1,11 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { prisma } from "@/lib/prisma";
 import { ShopNav } from "@/components/ShopNav";
 import { ProductCard } from "@/components/ProductCard";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = pageMetadata("On sale", "Gadgets currently marked on sale at Delux Tech Gadget.");
 
 export default async function OnSalePage() {
   const products = await prisma.product.findMany({

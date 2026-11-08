@@ -1,6 +1,10 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { prisma } from "@/lib/prisma";
 import { ShopNav } from "@/components/ShopNav";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = pageMetadata("Privacy policy", "How Delux Tech Gadget handles the personal details you give us when you order.");
 
 export default async function PrivacyPage() {
   const record = await prisma.siteContent.findUnique({ where: { key: "privacy" } });
